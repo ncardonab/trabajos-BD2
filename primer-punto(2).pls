@@ -1,4 +1,4 @@
-INSERT INTO proveedor VALUES(10, 'Lisv');
+/*INSERT INTO proveedor VALUES(10, 'Lisv');
 INSERT INTO proveedor VALUES(20, 'Kirsty');
 INSERT INTO proveedor VALUES(30, 'Bjorky');
 INSERT INTO proveedor VALUES(40, 'Wimpy');
@@ -23,7 +23,7 @@ INSERT INTO venta VALUES(28, 50, 2);
 INSERT INTO venta VALUES(21, 50, 1);
 INSERT INTO venta VALUES(29, 50, 5);
 INSERT INTO venta VALUES(99, 60, 2);
-
+*/
 --EJECUTAR DESDE AQUÍ
 
 DROP TABLE strs;
@@ -43,8 +43,9 @@ DECLARE
     i NUMBER(8) := 1;
     j NUMBER(8) := 1;
 BEGIN
+
 FOR venta_aux IN (SELECT * FROM venta_aux ORDER BY codpv, codproducto) LOOP
---    DBMS_OUTPUT.PUT_LINE(venta_aux.codpv || ' '  || venta_aux.codproducto);
+    DBMS_OUTPUT.PUT_LINE(venta_aux.codpv || ' '  || venta_aux.codproducto);
     array_ventas(i) := venta_aux;
     i := i+1;
 END LOOP;
@@ -66,10 +67,10 @@ FOR venta_aux IN (SELECT codpv, COUNT(codproducto) AS cantidad FROM venta_aux GR
     DBMS_OUTPUT.PUT_LINE(string_prods(venta_aux.codpv));
 END LOOP;
 
-FOR aux IN (SELECT str, COUNT(proveedor) FROM strs GROUP BY str) LOOP
+/*FOR aux IN (SELECT str, COUNT(proveedor) FROM strs GROUP BY str) LOOP
     aux1 = aux
     IF aux
-END LOOP;
+END LOOP; */
 END;
 /
 
