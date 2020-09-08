@@ -27,21 +27,14 @@ INSERT INTO venta VALUES(99, 60, 2);
 --EJECUTAR DESDE AQUÍ
 
 DROP TABLE strs;
-CREATE TABLE strs(proveedor NUMBER(8), nompv VARCHAR2(10) NOT NULL, str VARCHAR2(20));
+CREATE TABLE strs(proveedor NUMBER(8), str VARCHAR2(20));
 
-DROP TABLE venta_aux;
+DROP TABLE venta_aux(str VARCHAR2(20));
 CREATE TABLE venta_aux AS (select distinct codpv, codproducto FROM venta);
 
 DECLARE
-
-    cursor tabla_prov_x_venta is 
-    select distinct venta.codpv, proveedor.nompv, venta.codproducto
-    from venta 
-    inner join proveedor on proveedor.codpv = venta.codpv 
-    order by venta.codpv;
-
-    TYPE t_ventas IS TABLE OF tabla_prov_x_venta%ROWTYPE INDEX BY BINARY_INTEGER;
-    array_ventas t_ventas;
+    TYPE ventas IS TABLE OF venta_aux%ROWTYPE INDEX BY BINARY_INTEGER;
+    array_ventas ventas;
 
     TYPE prods IS TABLE OF strs.str%TYPE INDEX BY PLS_INTEGER;
     string_prods prods;
@@ -49,14 +42,13 @@ DECLARE
     n NUMBER(1) := 2;
     i NUMBER(8) := 1;
     j NUMBER(8) := 1;
+    prov VARCHAR2(10);
+    prov2 VARCHAR2(10);
+
     aux strs.str%TYPE;
     aux2 strs.proveedor%TYPE;
 BEGIN
-
-FOR venta_aux IN (select distinct venta_aux.codpv, proveedor.nompv, venta_aux.codproducto
-    from venta_aux 
-    inner join proveedor on proveedor.codpv = venta_aux.codpv 
-    order by venta_aux.codpv) LOOP
+FOR venta_aux IN (SELECT * FROM venta_aux ORDER BY codpv, codproducto) LOOP
     DBMS_OUTPUT.PUT_LINE(venta_aux.codpv || ' '  || venta_aux.codproducto);
     array_ventas(i) := venta_aux;
     i := i+1;
@@ -75,28 +67,24 @@ FOR venta_aux IN (SELECT codpv, COUNT(codproducto) AS cantidad FROM venta_aux GR
         j := array_ventas.NEXT(j);
     END LOOP;
 
-    INSERT INTO strs VALUES (venta_aux.codpv, , string_prods(venta_aux.codpv));
+    INSERT INTO strs VALUES (venta_aux.codpv, string_prods(venta_aux.codpv));
     DBMS_OUTPUT.PUT_LINE(string_prods(venta_aux.codpv));
 END LOOP;
 
 FOR venta_aux IN (SELECT * FROM strs) LOOP
     aux := string_prods(venta_aux.proveedor);
-    
     aux2 := string_prods.next(venta_aux.proveedor);
     WHILE aux2 IS NOT NULL LOOP
-
+        
         IF aux = string_prods(aux2) THEN
-            DBMS_OUTPUT.PUT_LINE('[' || venta_aux.proveedor || ', ' || aux2 || ']' || ' --> ' || aux);
+            select nompv INTO prov FROM proveedor WHERE codpv = venta_aux.proveedor;
+            select nompv INTO prov2 FROM proveedor WHERE codpv = aux2;
+            DBMS_OUTPUT.PUT_LINE('[' || venta_aux.proveedor || ' (' || prov  || '), '|| aux2  || ' ('  || prov2 || ')]' || ' --> ' || aux);
         END IF;
         aux2 := string_prods.next(aux2);
 
     END LOOP;
 END LOOP;
-
-/*FOR aux IN (SELECT str, COUNT(proveedor) FROM strs GROUP BY str) LOOP
-    aux1 = aux
-    IF aux
-END LOOP; */
 END;
 /
 
