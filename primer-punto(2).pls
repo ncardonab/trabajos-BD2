@@ -54,11 +54,12 @@ DECLARE
     TYPE prods IS TABLE OF strs.str%TYPE INDEX BY PLS_INTEGER;
     string_prods prods;
 
-    n NUMBER(1) := 2;
+    n NUMBER(1);
     i NUMBER(8) := 1;
     j NUMBER(8) := 1;
     prov VARCHAR2(10);
     prov2 VARCHAR2(10);
+    resultado VARCHAR2(100);
 
     aux strs.str%TYPE;
     aux2 strs.proveedor%TYPE;
@@ -89,33 +90,31 @@ BEGIN
         -- DBMS_OUTPUT.PUT_LINE(string_prods(venta_aux.codpv));
     END LOOP;
 
-    IF n = 2 THEN
-        FOR venta_aux IN (SELECT * FROM strs) LOOP
-            aux := string_prods(venta_aux.proveedor);
-            aux2 := string_prods.next(venta_aux.proveedor);
-            WHILE aux2 IS NOT NULL LOOP
-                
-                IF aux = string_prods(aux2) THEN
-                    select nompv INTO prov FROM proveedor WHERE codpv = venta_aux.proveedor;
-                    select nompv INTO prov2 FROM proveedor WHERE codpv = aux2;
-                    DBMS_OUTPUT.PUT_LINE('[' || venta_aux.proveedor || ' (' || prov  || '), '|| aux2  || ' ('  || prov2 || ')]' || ' --> ' || aux);
-                END IF;
-                aux2 := string_prods.next(aux2);
+    FOR venta_aux IN (SELECT * FROM strs) LOOP
+        aux := string_prods(venta_aux.proveedor); --string productos del proveedor actual
+        aux2 := string_prods.next(venta_aux.proveedor); --indice siguiente proveedor
+        i := 1;
+        select nompv INTO prov FROM proveedor WHERE codpv = venta_aux.proveedor;
+        resultado := ('[' || venta_aux.proveedor || ' (' || prov || '), ');
 
-            END LOOP;
+        WHILE aux2 IS NOT NULL LOOP
+            IF aux = string_prods(aux2) THEN
+                i := i + 1;
+                select nompv INTO prov2 FROM proveedor WHERE codpv = aux2;
+                IF i = n THEN
+                    resultado := (resultado || aux2  || ' ('  || prov2 || ')] ' || '--> ' || aux);
+                    DBMS_OUTPUT.PUT_LINE(resultado);
+                    EXIT;
+                END IF;
+                resultado := (resultado || aux2  || ' ('  || prov2 || '), ');
+--                DBMS_OUTPUT.PUT_LINE('[' || venta_aux.proveedor || ' (' || prov  || '), '|| aux2  || ' ('  || prov2 || ')]' || ' --> ' || aux);
+            END IF;
+            aux2 := string_prods.next(aux2);
         END LOOP;
-    ELSIF n = 3 THEN
-        DBMS_OUTPUT.PUT_LINE(n);
-    ELSIF n = 4 THEN
-        DBMS_OUTPUT.PUT_LINE(n);
-    ELSIF n = 5 THEN
-        DBMS_OUTPUT.PUT_LINE(n);
-    ELSIF n = 6 THEN
-        DBMS_OUTPUT.PUT_LINE(n);
-    END IF;
+    END LOOP;
 END;
 BEGIN
-    encontrar_grupos(2);
+    encontrar_grupos(3);
 END;
 /
 
