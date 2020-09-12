@@ -8,6 +8,7 @@
 -- Nuevos para prueba
 -- insert into proveedor values(70, 'Tommy');
 -- insert into proveedor values(80, 'Joel');
+-- insert into proveedor values(90, 'Ellie');
 
 -- INSERT INTO venta VALUES(3, 10, 1);
 -- INSERT INTO venta VALUES(5, 10, 2);
@@ -37,6 +38,9 @@
 -- INSERT INTO venta VALUES(150, 80, 2);
 -- INSERT INTO venta VALUES(151, 80, 5);
 -- INSERT INTO venta VALUES(152, 80, 1);
+-- INSERT INTO venta VALUES(153, 90, 1);
+-- INSERT INTO venta VALUES(154, 90, 5);
+-- INSERT INTO venta VALUES(155, 90, 2);
 
 
 --EJECUTAR DESDE AQUÍ
@@ -46,6 +50,8 @@ CREATE TABLE strs(proveedor NUMBER(8), str VARCHAR2(20));
 
 DROP TABLE venta_aux;
 CREATE TABLE venta_aux AS (select distinct codpv, codproducto FROM venta);
+
+SET serveroutput ON;
 
 DECLARE
     TYPE ventas IS TABLE OF venta_aux%ROWTYPE INDEX BY BINARY_INTEGER;
@@ -114,7 +120,7 @@ BEGIN
     END LOOP;
 END;
 BEGIN
-    encontrar_grupos(3);
+    encontrar_grupos(2);
 END;
 /
 
