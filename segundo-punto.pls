@@ -8,45 +8,7 @@ CREATE TABLE sucursal(
     nrosucdependientes NUMBER(1) NOT NULL CHECK (nrosucdependientes BETWEEN 0 AND 9)
 );
 
--- Ejecutar Cuarto
-INSERT INTO sucursal VALUES('Azul', 4);
-INSERT INTO sucursal VALUES('Pig', 0); 
-
 -- Ejecutar tercero
-CREATE OR REPLACE TRIGGER insercion_no_suc_dependientes
-AFTER INSERT ON sucursal
-FOR EACH ROW
-BEGIN
-    DBMS_OUTPUT.PUT_LINE('Trigger accionado!');
-    IF :NEW.nrosucdependientes > 0 THEN
-        FOR i IN 1..:NEW.nrosucdependientes LOOP
-            INSERT INTO sucursal VALUES( :NEW.cods || '.' || i, 0);
-        END LOOP;
-    END IF;
-END;
-/
-
-CREATE OR REPLACE TRIGGER insercion_no_suc_dependientes2
-AFTER UPDATE ON sucursal
-FOR EACH ROW
-WHEN (NEW.nrosucdependientes > OLD.nrosucdependientes)
-DECLARE
-    ultima NUMBER;
-    primera NUMBER;
-BEGIN 
-    DBMS_OUTPUT.PUT_LINE('Trigger update accionado!');
-    primera := :OLD.nrosucdependientes + 1;
-    ultima := :NEW.nrosucdependientes;
-    
-    FOR i IN primera.. ultima LOOP
-        -- DBMS_OUTPUT.PUT_LINE(i);
-        INSERT INTO sucursal VALUES(:NEW.cods || '.' ||i, 0);
-    END LOOP;
-END;
-/
-
-
---------------------------------------------------------------------------------
 
 CREATE OR REPLACE TRIGGER compuesto
     FOR INSERT OR UPDATE ON sucursal
@@ -58,13 +20,21 @@ CREATE OR REPLACE TRIGGER compuesto
         sucs sucursal.nrosucdependientes%TYPE
     );
 
-    TYPE t_aux_type IS TABLE OF aux_type INDEX BY PLS_INTEGER;
-    t_aux t_aux_type;
+    -- Arreglo
+    TYPE t_suc IS TABLE OF aux_type INDEX BY PLS_INTEGER;
+    suc t_suc;
 
     i NUMBER;
 
     ultima NUMBER;
     primera NUMBER;
+
+    k NUMBER(8) := 1;
+
+    str VARCHAR2(20);
+    num NUMBER;
+    nom VARCHAR2(20);
+    ult_ocurr NUMBER;
 
     BEFORE EACH ROW IS
     BEGIN
@@ -73,32 +43,91 @@ CREATE OR REPLACE TRIGGER compuesto
             DBMS_OUTPUT.PUT_LINE('Trigger insert accionado!');
             IF :NEW.nrosucdependientes > 0 THEN
                 FOR i IN 1..:NEW.nrosucdependientes LOOP
-                    t_aux(i).cods := :NEW.cods || '.' || i;
-                    t_aux(i).sucs := 0;
-                    DBMS_OUTPUT.PUT_LINE('cod' || t_aux(i).cods || t_aux(i).sucs);
-                    -- INSERT INTO sucursal VALUES( :NEW.cods || '.' || i, 0);
+                    suc(i).cods := :NEW.cods || '.' || i;
+                    suc(i).sucs := 0;
+                    DBMS_OUTPUT.PUT_LINE('cod' || suc(i).cods || suc(i).sucs);
                 END LOOP;
             END IF;
         WHEN UPDATING THEN
             DBMS_OUTPUT.PUT_LINE('Trigger update accionado!');
-            primera := :OLD.nrosucdependientes + 1;
+
+            primera := :OLD.nrosucdependientes;
             ultima := :NEW.nrosucdependientes;
-            FOR i IN primera.. ultima LOOP
-                    t_aux(i).cods := :NEW.cods || '.' || i;
-                    t_aux(i).sucs := 0;
-                    -- INSERT INTO sucursal VALUES(:NEW.cods || '.' ||i, 0);
-            END LOOP;
+            -- IF ultima > primera THEN
+                primera := primera + 1;
+                FOR i IN primera.. ultima LOOP
+                        suc(i).cods := :NEW.cods || '.' || i;
+                        suc(i).sucs := 0;
+                END LOOP;
+            -- ELSIF primera > ultima THEN
+                -- DBMS_OUTPUT.PUT_LINE('Es mayor el anterior')
+                -- DBMS_OUTPUT.PUT_LINE('Es mayor el anterior')
+                -- DBMS_OUTPUT.PUT_LINE('Estado inicial del array');
+                -- DBMS_OUTPUT.PUT_LINE('CODS   |   NROSUCDEPENDIENTES');
+                -- DBMS_OUTPUT.PUT_LINE('-----------------------------');
+                -- FOR mi_suc IN (SELECT * FROM sucursal) LOOP
+                --     suc(k) := mi_suc;
+                --     DBMS_OUTPUT.PUT_LINE(suc(k).cods || '        ' || suc(k).sucs);
+                --     k := k + 1;
+                -- END LOOP;
+
+                -- str := suc(2).cods;
+                -- DBMS_OUTPUT.PUT_LINE('Primer string: '|| str);
+                -- ult_ocurr := INSTR(str, '.', -1);
+                -- DBMS_OUTPUT.PUT_LINE('Indice ocurrencia ultimo punto (.): '|| ult_ocurr);
+
+                -- FOR i IN 1..suc.COUNT LOOP
+                --     str := suc(i).cods;
+
+                --     IF instr(str, '.', -1) > 0 THEN
+                --         DBMS_OUTPUT.PUT_LINE('String: '|| str);
+                --         num := SUBSTR(str, ult_ocurr + 1, 1);
+
+                --         DBMS_OUTPUT.PUT_LINE('Num: '|| num);
+
+                --         nom := SUBSTR(str, 1, ult_ocurr - 1); 
+                --         DBMS_OUTPUT.PUT_LINE(nom);
+                --         IF num > :NEW.nrosucdependencias AND nom = :NEW.cods THEN
+                --         -- IF num > 2 AND nom = 'Azul' THEN
+                --             DELETE FROM sucursal
+                --             WHERE cods = str;
+                --             DBMS_OUTPUT.PUT_LINE('.          Borrado! => ' || str);
+                --         END IF;
+                --     END IF;
+                -- END LOOP;
+
+                -- DBMS_OUTPUT.PUT_LINE('count: ' || suc.COUNT);
+                -- DBMS_OUTPUT.PUT_LINE('Estado final del array');
+                -- DBMS_OUTPUT.PUT_LINE('CODS   |   NROSUCDEPENDIENTES');
+                -- DBMS_OUTPUT.PUT_LINE('-----------------------------');
+
+                -- FOR mi_suc IN (SELECT * FROM sucursal) LOOP
+                --     DBMS_OUTPUT.PUT_LINE(mi_suc.cods || '        ' || mi_suc.nrosucdependientes);
+                -- END LOOP;
+            -- END IF;
+            
     END CASE;
     END BEFORE EACH ROW;
 
     AFTER STATEMENT IS
     BEGIN
-        i := t_aux.First;
+        i := suc.First;
         WHILE i IS NOT NULL LOOP
-            INSERT INTO sucursal VALUES(t_aux(i).cods, t_aux(i).sucs);
-            i := t_aux.NEXT(i);
+            INSERT INTO sucursal VALUES(suc(i).cods, suc(i).sucs);
+            i := suc.NEXT(i);
         END LOOP;
     END AFTER STATEMENT;
 
 END compuesto;
 /
+
+-- Ejecutar Cuarto
+INSERT INTO sucursal VALUES('Azul', 4);
+INSERT INTO sucursal VALUES('Pig', 0);
+UPDATE sucursal SET nrosucdependientes = 6 WHERE cods = 'Azul';
+UPDATE sucursal SET nrosucdependientes = 2 WHERE cods = 'Azul.3';
+UPDATE sucursal SET nrosucdependientes = 4 WHERE cods = 'Pig';
+-- UPDATE sucursal SET nrosucdependientes = 2 WHERE cods = 'Azul';
+
+-- Ejecutar Quinto
+SELECT * FROM sucursal;
