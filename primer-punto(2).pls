@@ -74,7 +74,6 @@ BEGIN
 
     -- Loop donde se mapea la selección de la tabla de venta_aux en el array_ventas
     FOR venta_aux IN (SELECT * FROM venta_aux ORDER BY codpv, codproducto) LOOP
-        -- DBMS_OUTPUT.PUT_LINE(venta_aux.codpv || ' '  || venta_aux.codproducto);
         array_ventas(i) := venta_aux;
         i := i+1;
     END LOOP;
@@ -93,7 +92,6 @@ BEGIN
         END LOOP;
 
         INSERT INTO strs VALUES (venta_aux.codpv, string_prods(venta_aux.codpv));
-        -- DBMS_OUTPUT.PUT_LINE(string_prods(venta_aux.codpv));
     END LOOP;
 
     FOR venta_aux IN (SELECT * FROM strs) LOOP
@@ -113,7 +111,6 @@ BEGIN
                     EXIT;
                 END IF;
                 resultado := (resultado || aux2  || ' ('  || prov2 || '), ');
---                DBMS_OUTPUT.PUT_LINE('[' || venta_aux.proveedor || ' (' || prov  || '), '|| aux2  || ' ('  || prov2 || ')]' || ' --> ' || aux);
             END IF;
             aux2 := string_prods.next(aux2);
         END LOOP;
