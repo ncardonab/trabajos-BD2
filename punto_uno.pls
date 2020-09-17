@@ -69,9 +69,13 @@ DECLARE
 
     aux strs.str%TYPE;
     aux2 strs.proveedor%TYPE;
+
+    a EXCEPTION;
 PROCEDURE encontrar_grupos(n IN number) IS
 BEGIN
-
+    IF n > 6 OR n < 2 THEN
+        RAISE a;
+    END IF;
     -- Loop donde se mapea la selección de la tabla de venta_aux en el array_ventas
     FOR venta_aux IN (SELECT * FROM venta_aux ORDER BY codpv, codproducto) LOOP
         array_ventas(i) := venta_aux;
@@ -115,10 +119,11 @@ BEGIN
             aux2 := string_prods.next(aux2);
         END LOOP;
     END LOOP;
+EXCEPTION
+    WHEN a THEN
+        DBMS_OUTPUT.PUT_LINE('n fuera del rango ');
 END;
 BEGIN
     encontrar_grupos(2);
 END;
 /
-
--- SELECT str, COUNT(proveedor) FROM strs GROUP BY str 
