@@ -54,15 +54,18 @@ public class FormularioInicial {
 		
 		JTextPane textLocales = new JTextPane();
 		
+		textCiudad = new JTextField();
+		textCiudad.setColumns(10);
+		
 		JButton btnInsert = new JButton("Insertar");
 		btnInsert.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(textLocales.getText());
+				System.out.println("Ciudad: " + textCiudad.getText());
 			}
 		});
 		
-		textCiudad = new JTextField();
-		textCiudad.setColumns(10);
+
 		
 		JLabel lblNewLabel = new JLabel("Ingreso de datos de los locales de una ciudad");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
