@@ -12,11 +12,14 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JTextPane;
 
 public class FormularioInicial {
 
 	private JFrame frame;
-	private JTextField textLocales;
 	private JTextField textCiudad;
 
 	/**
@@ -49,8 +52,7 @@ public class FormularioInicial {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
 		
-		textLocales = new JTextField();
-		textLocales.setColumns(10);
+		JTextPane textLocales = new JTextPane();
 		
 		JButton btnInsert = new JButton("Insertar");
 		btnInsert.addActionListener(new ActionListener(){
@@ -67,29 +69,32 @@ public class FormularioInicial {
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre de la ciudad");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		
+		textLocales.setForeground(new Color(0, 0, 0));
+		textLocales.setBackground(Color.LIGHT_GRAY);
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(41, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(41)
-							.addComponent(lblNewLabel))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(textLocales, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNewLabel))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(68)
+									.addComponent(textCiudad, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(59)
+									.addComponent(lblNewLabel_1)))
+							.addGap(104))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(101)
-							.addComponent(textLocales, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(68)
-							.addComponent(textCiudad, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(59)
-							.addComponent(lblNewLabel_1)))
-					.addGap(104))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap(303, Short.MAX_VALUE)
-					.addComponent(btnInsert)
-					.addGap(256))
+							.addComponent(btnInsert)
+							.addGap(256))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -101,8 +106,9 @@ public class FormularioInicial {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(textLocales, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-							.addGap(30)
+							.addGap(12)
+							.addComponent(textLocales, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+							.addGap(37)
 							.addComponent(btnInsert))
 						.addComponent(textCiudad, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(184, Short.MAX_VALUE))
