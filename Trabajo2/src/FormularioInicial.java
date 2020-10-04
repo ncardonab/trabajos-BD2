@@ -1,5 +1,4 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
@@ -17,7 +16,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
 
-public class FormularioInicial {
+public class FormularioInicial extends Object {
 
 	private JFrame frame;
 	private JTextField textCiudad;
@@ -62,10 +61,10 @@ public class FormularioInicial {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(textLocales.getText());
 				System.out.println("Ciudad: " + textCiudad.getText());
+				ConexionBD insert = new ConexionBD();
+				insert.insertarCiudad(textCiudad.getText(), textLocales.getText());
 			}
 		});
-		
-
 		
 		JLabel lblNewLabel = new JLabel("Ingreso de datos de los locales de una ciudad");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
