@@ -61,6 +61,7 @@ public class FormularioInicial extends Object {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(textLocales.getText());
 				System.out.println("Ciudad: " + textCiudad.getText());
+				
 				ConexionBD insert = new ConexionBD();
 				insert.insertarCiudad(textCiudad.getText(), textLocales.getText());
 			}

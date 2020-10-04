@@ -1,5 +1,3 @@
-/*Este ejemplo fue tomado de internet y fue modificado para acceder y
- pintar figuras desde la BD*/
 import javax.swing.*;
 import java.io.*;
 import java.awt.*;
@@ -36,6 +34,7 @@ public class ConexionBD extends JFrame {
  }
  
  public void insertarCiudad(String ciudad, String locales) {
+	 System.out.println("Entró a insertar");
 	 this.Conexion();
 	 System.out.println(locales);
 	 locales = locales.replaceAll(" ", "");
@@ -47,11 +46,12 @@ public class ConexionBD extends JFrame {
 		 String[] coordenadas = l.split(",");
 		 xml += "<a>" + coordenadas[0] + "</a>"+
 				 "<b>" + coordenadas[1] + "</b>"+
-				 "<c>" + coordenadas[1] + "</c>"+
-				 "<d>" + coordenadas[1] + "</d>";
+				 "<c>" + coordenadas[2] + "</c>"+
+				 "<d>" + coordenadas[3] + "</d>";
 		 xml += "</rectangulo>";
 	 }
 	 xml += "</locales>";
+	 xml = xml.replaceAll("\\r", "");
 	 System.out.println("EL XML ES: "+ xml);
 	 String queryInsertCity = "INSERT INTO CITY (Nombre_ciudad,Locales) VALUES ('"+ciudad+"',XMLTYPE('" + xml + "'))";
 

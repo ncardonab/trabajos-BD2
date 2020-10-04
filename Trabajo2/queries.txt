@@ -1,0 +1,34 @@
+DROP TABLE CITY;
+CREATE TABLE CITY(
+	Nombre_ciudad VARCHAR2(20) PRIMARY KEY,
+	Locales XMLTYPE
+);
+
+INSERT INTO CITY VALUES(
+'Cali',XMLTYPE('
+<locales>
+<rectangulo>
+<a>10</a>
+<b>10</b>
+<c>4</c>
+<d>5</d>
+</rectangulo>
+<rectangulo>
+<a>40</a>
+<b>50</b>
+<c>5</c>
+<d>5</d>
+</rectangulo>
+<rectangulo>
+<a>80</a>
+<b>76</b>
+<c>10</c>
+<d>4</d>
+</rectangulo>
+</locales>')
+);
+
+Coordenadas:
+10, 10, 4, 5
+40, 50, 5, 5
+80, 76, 10, 4
