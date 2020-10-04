@@ -58,7 +58,7 @@ public class ConexionBD extends JFrame {
 	 try {
 		 PreparedStatement preparedStatement = conn.prepareStatement(queryInsertCity);
 		 preparedStatement.executeUpdate();
-         System.out.println("Record is inserted into DBUSER table!");
+         System.out.println("Se ha insertado la ciudad exitosamente!");
          conn.close();
 	 } catch(SQLException e) {
          System.out.println(e.getMessage());

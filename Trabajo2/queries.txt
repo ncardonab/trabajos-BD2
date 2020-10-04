@@ -37,3 +37,11 @@ Coordenadas:
 Conexión Nico
 this.conn = DriverManager.getConnection  
         ("jdbc:oracle:thin:@LAPTOP-QRMV4NQS:1521:xe","nclsc","pass");
+
+("jdbc:oracle:thin:@DESKTOP-LDB790I:1521:xe","di","1537");
+
+
+Para que el .ignore funcione
+git rm -r --cached .
+git add .
+git commit -m "Limpieza de Cache"  
