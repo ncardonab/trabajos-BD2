@@ -32,3 +32,8 @@ Coordenadas:
 10, 10, 4, 5
 40, 50, 5, 5
 80, 76, 10, 4
+
+
+Conexión Nico
+this.conn = DriverManager.getConnection  
+        ("jdbc:oracle:thin:@LAPTOP-QRMV4NQS:1521:xe","nclsc","pass");
