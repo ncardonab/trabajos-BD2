@@ -1,39 +1,38 @@
+Primer punto
 DROP TABLE CITY;
 CREATE TABLE CITY(
 	Nombre_ciudad VARCHAR2(20) PRIMARY KEY,
 	Locales XMLTYPE
 );
+----------------------------------------------------------------
+Segundo Punto
+DROP TYPE coor_tip FORCE;
+CREATE OR REPLACE TYPE coor_tip
+AS OBJECT( 
+ x NUMBER(3), 
+ y NUMBER(10),
+ v NUMBER(10));
+/
 
-INSERT INTO CITY VALUES(
-'Cali',XMLTYPE('
-<locales>
-<rectangulo>
-<a>10</a>
-<b>10</b>
-<c>4</c>
-<d>5</d>
-</rectangulo>
-<rectangulo>
-<a>40</a>
-<b>50</b>
-<c>5</c>
-<d>5</d>
-</rectangulo>
-<rectangulo>
-<a>80</a>
-<b>76</b>
-<c>10</c>
-<d>4</d>
-</rectangulo>
-</locales>')
-);
+DROP TYPE nest_venta FORCE;
+CREATE OR REPLACE TYPE
+nest_venta AS TABLE OF coor_tip;
+/
 
-Coordenadas:
-10, 10, 4, 5
-40, 50, 5, 5
-80, 76, 10, 4
+DROP TYPE venta_tip FORCE;
+CREATE OR REPLACE TYPE venta_tip AS 
+OBJECT(CodigoVendedor NUMBER(5),
+	Ciudad VARCHAR2(20),
+	ventas nest_venta);
+/
 
-
+DROP TABLE VVCITY;
+CREATE TABLE VVCITY OF venta_tip
+(PRIMARY KEY(CodigoVendedor, Ciudad)) 
+NESTED TABLE ventas STORE AS store_ventas
+((PRIMARY KEY(NESTED_TABLE_ID, x, y)));
+------------------------------------------------------------------------------------------------------
+OTROS
 Conexión Nico
 this.conn = DriverManager.getConnection  
         ("jdbc:oracle:thin:@LAPTOP-QRMV4NQS:1521:xe","nclsc","pass");
@@ -45,3 +44,9 @@ Para que el .ignore funcione
 git rm -r --cached .
 git add .
 git commit -m "Limpieza de Cache"  
+
+
+
+
+
+
