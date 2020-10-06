@@ -30,7 +30,7 @@ public class ConexionBD extends JFrame {
     	
         try{ // Se establece la conexion con la base de datos Oracle Express
         	this.conn = DriverManager.getConnection  
-        			("jdbc:oracle:thin:@DESKTOP-LDB790I:1521:xe","di","1537");
+        	        ("jdbc:oracle:thin:@LAPTOP-QRMV4NQS:1521:xe","nclsc","pass");
            } catch( SQLException e ) {
              System.out.println("No hay conexion con la base de datos.");
              return;
