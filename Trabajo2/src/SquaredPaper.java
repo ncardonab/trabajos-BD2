@@ -63,13 +63,14 @@ public class SquaredPaper extends JFrame {
     		g.drawRect(resultado.getInt("a"),resultado.getInt("b"),resultado.getInt("c"),resultado.getInt("d"));
     	}
     	// Graficar puntos
-    	query = "SELECT t.x AS x, t.y AS y, t.v AS v " +
-    			"FROM VVCITY c, TABLE(c.ventas) t " +
-    			"WHERE Ciudad = '"+ciudad+"'";
+    	query = "SELECT Ciudad, t.x AS x, t.y AS y, SUM(t.v) AS suma"+
+    			" FROM VVCITY c, TABLE(c.ventas) t"+
+    			" WHERE Ciudad = '"+ciudad+"'"+
+    			" group by Ciudad,x,y";
     	resultado = sentencia.executeQuery(query);
     	while(resultado.next()) {
     		g.fillOval(resultado.getInt("x"),resultado.getInt("y"),20,20);
-    		g.drawString("$"+resultado.getInt("v"),resultado.getInt("x"),resultado.getInt("y"));
+    		g.drawString("$"+resultado.getInt("suma"),resultado.getInt("x"),resultado.getInt("y"));
     	}
     } catch(SQLException e ){      
       System.out.println("Error: " + e.getMessage());
