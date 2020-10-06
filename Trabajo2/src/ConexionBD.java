@@ -29,8 +29,8 @@ public class ConexionBD extends JFrame {
     	 }
     	
         try{ // Se establece la conexion con la base de datos Oracle Express
-            this.conn = DriverManager.getConnection  
-    		("jdbc:oracle:thin:@DESKTOP-LDB790I:1521:xe","di","1537");
+        	this.conn = DriverManager.getConnection  
+        	        ("jdbc:oracle:thin:@LAPTOP-QRMV4NQS:1521:xe","nclsc","pass");
            } catch( SQLException e ) {
              System.out.println("No hay conexion con la base de datos.");
              return;
@@ -56,7 +56,7 @@ public class ConexionBD extends JFrame {
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(queryInsertCity);
 			preparedStatement.executeUpdate();
-			System.out.println("Record is inserted into DBUSER table!");
+			System.out.println("Record is inserted into DBUSER table!\n");
 		} catch (SQLIntegrityConstraintViolationException err) {
 			this.updateCity(ciudad, locales);
 		} catch (SQLException e) {
@@ -119,7 +119,7 @@ public class ConexionBD extends JFrame {
 			System.out.println("Asegurate de hacer commit; en tu tabla para que los cambios se vean reflejados");
 			PreparedStatement preparedStatement = conn.prepareStatement(queryUpdateCity);
 			preparedStatement.executeQuery();
-			System.out.println("Record is updated into DBUSER table!");
+			System.out.println("Record is updated into DBUSER table!\n");
 			conn.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -175,7 +175,6 @@ public class ConexionBD extends JFrame {
 	 }
 	
 	public int getLocalsCount(String city) {
-		System.out.println("ANTES DLE rectc");
 		int rectCount = 0;
 
 		// Si hay un error de tipo SQLException lo imprime, de lo contrario obtiene el
@@ -223,13 +222,11 @@ public class ConexionBD extends JFrame {
 				sentencia = conn.createStatement();
 				ResultSet resultado = sentencia.executeQuery(queryGetLocals);
 				while(resultado.next()) {
-					System.out.println(resultado.getInt("a"));
 					locales[i - 1][0] = resultado.getInt("a");
 					locales[i - 1][1] = resultado.getInt("b");
 					locales[i - 1][2] = resultado.getInt("c");
 					locales[i - 1][3] = resultado.getInt("d");
 				}
-				System.out.println("Statement EXTRACTVALUE completado");
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				break;

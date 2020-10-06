@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.GroupLayout;
@@ -60,7 +61,7 @@ public class FormularioInicial extends Object {
 		JButton btnInsert = new JButton("Insertar");
 		btnInsert.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				// Conexiï¿½n con la base de datos
+				// Conexion con la base de datos
 				ConexionBD conexion = new ConexionBD();
 				
 				// Obteniendo los datos del formulario
@@ -75,36 +76,46 @@ public class FormularioInicial extends Object {
 				int[][] localByCity = conexion.getLocalByCity(ciudad);
 				int localCount = localByCity.length;
 				
-				if(localCount == 0) {
-					conexion.insertarCiudad(ciudad, loc[0]);
-				}else {
-					outerloop: for (String l:loc) {
-						String[] coord1 = l.split(",");
-						Rectangle rect1 = new Rectangle(Integer.parseInt(coord1[0]), 
-														Integer.parseInt(coord1[1]), 
-														Integer.parseInt(coord1[2]), 
-														Integer.parseInt(coord1[3]));
-						
-						
-						for (int i = 0; i < localCount; i++) {
+				int noIntersectionCount = 0;
+				
+				for (String l:loc) {
+					String[] coord1 = l.split(",");
+					Rectangle rect1 = new Rectangle(Integer.parseInt(coord1[0]), 
+													Integer.parseInt(coord1[1]), 
+													Integer.parseInt(coord1[2]), 
+													Integer.parseInt(coord1[3]));
+					
+					if (localCount == 0) {// No hay nada en la BD por eso ingresa el primero
+						conexion.insertarCiudad(ciudad, l);
+					} else {
+						innerfor: for (int i = 0; i < localCount; i++) {
 							int[] coord2 = localByCity[i];
 							Rectangle rect2 = new Rectangle(coord2[0], 
 															coord2[1], 
 															coord2[2], 
 															coord2[3]);
 							
-							// Si no hay intersecciï¿½n, inserta
+							// Si no hay interseccion, acumula el numero de no intersecciones
 							if (!Rectangle.intersection(rect1, rect2)) {
-								conexion.insertarCiudad(ciudad, locales);
-								// Locales insertados!!
+								noIntersectionCount += 1;
+								// Local insertado!!
 								
 							} else {
-								System.out.println("No se puede ingresar este local pues se intersecta con otro que existe en la ciudad!");
-								break outerloop;
-								// Locales no insertados :(
+								System.out.println("No se puede ingresar este local pues se intersecta con otro que existe en la ciudad!\n");
+								break innerfor;
+								// Local no insertado :(
+								// Una vez se encuentran una interseccion entre el loc[i] (local insertado pos i) y los que habian en la base de datos (localByCity)
 							}
 						}
+					} 
+					
+					if (noIntersectionCount == localCount && localCount != 0) { // Significa que no se intersectó con ninguna
+						conexion.insertarCiudad(ciudad, l);
 					}
+					
+					localByCity = conexion.getLocalByCity(ciudad);
+					localCount = localByCity.length;
+					noIntersectionCount = 0;
 				}
 			}
 		});

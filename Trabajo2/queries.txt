@@ -28,30 +28,6 @@ INSERT INTO CITY VALUES(
 </locales>')
 );
 
-UPDATE city 
-SET locales = XMLTYPE('
-<locales>
-<rectangulo>
-<a>10</a>
-<b>10</b>
-<c>4</c>
-<d>5</d>
-</rectangulo>
-<rectangulo>
-<a>40</a>
-<b>50</b>
-<c>5</c>
-<d>5</d>
-</rectangulo>
-<rectangulo>
-<a>80</a>
-<b>76</b>
-<c>10</c>
-<d>4</d>
-</rectangulo>
-</locales>')
-WHERE nombre_ciudad = 'Cali';
-
 --- Queries para Cali
 
 SELECT EXTRACTVALUE(locales,'locales/rectangulo[1]/a') AS a,
@@ -82,6 +58,13 @@ SELECT EXTRACTVALUE(locales,'locales/rectangulo[4]/a') AS a,
 FROM city
 WHERE nombre_ciudad='Cali';
 
+SELECT EXTRACTVALUE(locales,'locales/rectangulo[5]/a') AS a,
+       EXTRACTVALUE(locales,'locales/rectangulo[5]/b') AS b,
+       EXTRACTVALUE(locales,'locales/rectangulo[5]/c') AS c,
+       EXTRACTVALUE(locales,'locales/rectangulo[5]/d') AS d
+FROM city
+WHERE nombre_ciudad='Cali';
+
 SELECT EXTRACTVALUE(locales,'locales/rectangulo[2]/a') AS a,
        EXTRACTVALUE(locales,'locales/rectangulo[2]/b') AS b,
        EXTRACTVALUE(locales,'locales/rectangulo[2]/c') AS c,
@@ -96,12 +79,19 @@ SELECT EXTRACTVALUE(locales,'locales/rectangulo[3]/a') AS a,
 FROM city;
 WHERE nombre_ciudad = 'Los Angeles';
 
+DELETE city;
+commit;
+SELECT * FROM city;
+
 Coordenadas:
 10, 10, 4, 5
 40, 50, 5, 5
 80, 76, 10, 4
 13, 13, 5, 3
+84, 74, 2, 4
+15, 11, 2, 2
 1, 1, 1, 1
+7, 10, 4, 1
 
 -- Update statement
 UPDATE city
@@ -123,7 +113,6 @@ this.conn = DriverManager.getConnection
         ("jdbc:oracle:thin:@LAPTOP-QRMV4NQS:1521:xe","nclsc","pass");
 
 ("jdbc:oracle:thin:@DESKTOP-LDB790I:1521:xe","di","1537");
-
 
 Para que el .ignore funcione
 git rm -r --cached .
