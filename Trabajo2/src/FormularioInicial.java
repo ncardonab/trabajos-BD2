@@ -72,38 +72,39 @@ public class FormularioInicial extends Object {
 				String[] loc = locales.split("\n");
 				
 				// Trayendo los locales por ciudad
-				System.out.println("ANTES GET LOCAL");
 				int[][] localByCity = conexion.getLocalByCity(ciudad);
 				int localCount = localByCity.length;
-				System.out.println("DESPUES GET LOCAL");
 				
-				outerloop: for (String l:loc) {
-					String[] coord1 = l.split(",");
-					Rectangle rect1 = new Rectangle(Integer.parseInt(coord1[0]), 
-													Integer.parseInt(coord1[1]), 
-													Integer.parseInt(coord1[2]), 
-													Integer.parseInt(coord1[3]));
-					
-					
-					for (int i = 0; i < localCount; i++) {
-						int[] coord2 = localByCity[i];
-						Rectangle rect2 = new Rectangle(coord2[0], 
-														coord2[1], 
-														coord2[2], 
-														coord2[3]);
+				if(localCount == 0) {
+					conexion.insertarCiudad(ciudad, loc[0]);
+				}else {
+					outerloop: for (String l:loc) {
+						String[] coord1 = l.split(",");
+						Rectangle rect1 = new Rectangle(Integer.parseInt(coord1[0]), 
+														Integer.parseInt(coord1[1]), 
+														Integer.parseInt(coord1[2]), 
+														Integer.parseInt(coord1[3]));
 						
-						// Si no hay intersecci�n, inserta
-						if (!Rectangle.intersection(rect1, rect2)) {
-							conexion.insertarCiudad(ciudad, locales);
-							// Locales insertados!!
+						
+						for (int i = 0; i < localCount; i++) {
+							int[] coord2 = localByCity[i];
+							Rectangle rect2 = new Rectangle(coord2[0], 
+															coord2[1], 
+															coord2[2], 
+															coord2[3]);
 							
-						} else {
-							System.out.println("No se puede ingresar este local pues se intersecta con otro que existe en la ciudad!");
-							break outerloop;
-							// Locales no insertados :(
+							// Si no hay intersecci�n, inserta
+							if (!Rectangle.intersection(rect1, rect2)) {
+								conexion.insertarCiudad(ciudad, locales);
+								// Locales insertados!!
+								
+							} else {
+								System.out.println("No se puede ingresar este local pues se intersecta con otro que existe en la ciudad!");
+								break outerloop;
+								// Locales no insertados :(
+							}
 						}
 					}
-					
 				}
 			}
 		});

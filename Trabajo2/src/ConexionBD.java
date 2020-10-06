@@ -175,6 +175,7 @@ public class ConexionBD extends JFrame {
 	 }
 	
 	public int getLocalsCount(String city) {
+		System.out.println("ANTES DLE rectc");
 		int rectCount = 0;
 
 		// Si hay un error de tipo SQLException lo imprime, de lo contrario obtiene el
@@ -184,22 +185,21 @@ public class ConexionBD extends JFrame {
 			String query = "SELECT EXTRACTVALUE(locales,'count(/locales/rectangulo)') AS count FROM CITY WHERE nombre_ciudad = '"
 					+ city + "'";
 			ResultSet resultado = sentencia.executeQuery(query);
-			resultado.next();
-
-			rectCount = resultado.getInt("count");
+			while(resultado.next()) {
+				rectCount = resultado.getInt("count");
+			}
 		} catch (SQLIntegrityConstraintViolationException e) {
 			System.out.println(e.getMessage());
 		} catch (SQLException err) {
 			System.out.println(err.getMessage());
 		}
-
 		return rectCount;
 	}
 	
 	public int[][] getLocalByCity(String city) {
 		// Estableciendo conexión con la base de datos
 		this.Conexion();
-
+		
 		String queryGetLocals = "";
 
 		// Obteniendo la cantidad de locales en una ciudad
@@ -229,7 +229,7 @@ public class ConexionBD extends JFrame {
 					locales[i - 1][2] = resultado.getInt("c");
 					locales[i - 1][3] = resultado.getInt("d");
 				}
-				System.out.println("The table records were fetched!");
+				System.out.println("Statement EXTRACTVALUE completado");
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				break;
