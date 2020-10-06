@@ -128,6 +128,17 @@ public class ConexionBD extends JFrame {
 	
 	public void insertarVentas(String ventas, String Ciudad, String codVendedor){
 		 this.Conexion();
+		 if(ventas.equals("")) {
+			 String query2 = "INSERT INTO VVCITY VALUES(" + codVendedor + ", '" + Ciudad+"', NULL)";
+			 try {
+				 PreparedStatement preparedStatement = conn.prepareStatement(query2);
+				 preparedStatement.executeUpdate();
+			 } catch (SQLIntegrityConstraintViolationException e) {
+				 System.out.println("ESTE PROVEEDOR YA EXISTE EN ESTA CIUDAD, NO SE HICIERON CAMBIOS");
+			 } catch(SQLException f) {
+				 System.out.println(f.getMessage());
+			 }
+		 }else {
 		 ventas = ventas.replaceAll(" ", "");
 		 ventas = ventas.replaceAll("\\r", "");
 		 String[] lista_ventas = ventas.split("\n");
@@ -171,7 +182,7 @@ public class ConexionBD extends JFrame {
 			 }
 			 
 		 }
-
+		}
 	 }
 	
 	public int getLocalsCount(String city) {
