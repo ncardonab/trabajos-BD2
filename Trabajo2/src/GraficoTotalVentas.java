@@ -5,9 +5,9 @@ import java.awt.*;
 import java.sql.*;
 import java.math.*;
  
-public class SquaredPaper extends JFrame {
+public class GraficoTotalVentas extends JFrame {
 	String ciudad;
- public SquaredPaper(String ciudad) {
+ public GraficoTotalVentas(String ciudad) {
 	 this.ciudad = ciudad;
  }
  public void paint(Graphics g) {
@@ -50,9 +50,11 @@ public class SquaredPaper extends JFrame {
        
     try {
       //Se obtienen las coordenadas de los locales 
+    	
     	ResultSet resCantidad = sentencia.executeQuery("SELECT EXTRACTVALUE(locales,'count(/locales/rectangulo)') AS c FROM CITY WHERE nombre_ciudad = '"+ciudad+"'");
     	resCantidad.next();
     	int c = resCantidad.getInt("c");
+    	int auxTotalVentas = 0;
     	for(int i = 1; i<=c; i++) {
     		query = String.format("SELECT EXTRACTVALUE(locales,'/locales/rectangulo[%d]/a') AS a,"
     				+ "EXTRACTVALUE(locales,'/locales/rectangulo[%d]/b') AS b,EXTRACTVALUE(locales,'/locales/rectangulo[%d]/c') AS c,"
@@ -60,30 +62,35 @@ public class SquaredPaper extends JFrame {
     				+ "FROM city WHERE nombre_ciudad = '"+ciudad+"'", i,i,i,i);
     		resultado = sentencia.executeQuery(query);
     		resultado.next();
+    		int xr = resultado.getInt("a");
+    		int yr = resultado.getInt("b");
+    		int wr = resultado.getInt("c");
+    		int hr = resultado.getInt("d");
     		g.drawRect(resultado.getInt("a"),resultado.getInt("b"),resultado.getInt("c"),resultado.getInt("d"));
+        	query = "SELECT t.x AS x, t.y AS y, t.v AS v " +
+        			"FROM VVCITY c, TABLE(c.ventas) t " +
+        			"WHERE Ciudad = '"+ciudad+"'";
+        	ResultSet resultadoVentas = sentencia.executeQuery(query);
+        	int auxSumaTotal = 0;        	
+        	while(resultadoVentas.next()) {
+        		int xv = resultadoVentas.getInt("x");
+        		int yv = resultadoVentas.getInt("y");
+        		if(xv <= xr+wr && xv >= xr && yv <= yr+hr && yv >= yr) {
+        			auxSumaTotal += resultadoVentas.getInt("v");
+        			auxTotalVentas -= resultadoVentas.getInt("v");
+        		}
+        		if(i==1) {
+        			auxTotalVentas += resultadoVentas.getInt("v");
+        		}
+        	}
+        	
+    		g.fillOval((2*xr+wr)/2,(2*yr+hr)/2,20,20);
+    		g.drawString("$"+auxSumaTotal,(2*xr+wr)/2,(2*yr+hr)/2);
     	}
-    	// Graficar puntos
-    	query = "SELECT t.x AS x, t.y AS y, t.v AS v " +
-    			"FROM VVCITY c, TABLE(c.ventas) t " +
-    			"WHERE Ciudad = '"+ciudad+"'";
-    	resultado = sentencia.executeQuery(query);
-    	while(resultado.next()) {
-    		g.fillOval(resultado.getInt("x"),resultado.getInt("y"),20,20);
-    		g.drawString("$"+resultado.getInt("v"),resultado.getInt("x"),resultado.getInt("y"));
-    	}
+    	g.drawString("Total de ventas por fuera de los locales",150,460);
+		g.drawString("$"+auxTotalVentas,230,480);
     } catch(SQLException e ){      
       System.out.println("Error: " + e.getMessage());
       }              
  }
- 
-// public static void main(String args[]) {
-//   SquaredPaper DrawWindow = new SquaredPaper();
-// 
-//   DrawWindow.setSize(500,500);
-//   DrawWindow.setResizable(false);
-//   DrawWindow.setLocation(200, 50);
-//   DrawWindow.setTitle("Pintando figuras almacenadas en la BD");
-//   DrawWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//   DrawWindow.setVisible(true);
-// }
 }

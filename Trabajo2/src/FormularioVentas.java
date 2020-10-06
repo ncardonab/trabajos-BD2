@@ -63,7 +63,6 @@ public class FormularioVentas {
 		ConexionBD conexion = new ConexionBD();
 		String[] ciudades = conexion.consultarCiudades();
 		selectCiudad.setModel(new DefaultComboBoxModel(ciudades));
-//		selectCiudad.setModel(new DefaultComboBoxModel(new String[]{"Cali","MEdellin"}));
 
 		
 		JLabel textCodVendedor = new JLabel("C\u00F3digo vendedor");

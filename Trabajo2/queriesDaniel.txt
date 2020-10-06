@@ -1,15 +1,3 @@
-Primer punto
-DROP TABLE CITY;
-CREATE TABLE CITY(
-	Nombre_ciudad VARCHAR2(20) PRIMARY KEY,
-	Locales XMLTYPE
-);
-----------------------------------------------------------------
-Segundo Punto
-DROP TYPE coor_tip FORCE;
-CREATE OR REPLACE TYPE coor_tip
-AS OBJECT( 
- x NUMBER(3), 
  y NUMBER(10),
  v NUMBER(10));
 /
@@ -61,5 +49,3 @@ SELECT EXTRACTVALUE(locales,'count(/locales/rectangulo)') AS c FROM CITY WHERE n
 SELECT Ciudad, t.x, t.y, t.v
 FROM VVCITY c, TABLE(c.ventas) t
 WHERE Ciudad = 'Bello';
-
-

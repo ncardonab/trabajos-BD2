@@ -84,7 +84,6 @@ public class ConexionBD extends JFrame {
  }
  
  public void insertarVentas(String ventas, String Ciudad, String codVendedor){
-//	 System.out.println("Entró a insertar");
 	 this.Conexion();
 	 ventas = ventas.replaceAll(" ", "");
 	 ventas = ventas.replaceAll("\\r", "");
@@ -92,7 +91,6 @@ public class ConexionBD extends JFrame {
 	 for(String venta:lista_ventas) {
 		 Boolean aux = true;
 		 String query = "INSERT INTO VVCITY VALUES(" + codVendedor + ", '" + Ciudad+"', nest_venta("+"coor_tip("+venta+")))";
-//		 System.out.println("Query = "+query);
 		 
 		 try {
 			 PreparedStatement preparedStatement = conn.prepareStatement(query);
@@ -105,13 +103,10 @@ public class ConexionBD extends JFrame {
 				 resultado = sentencia.executeQuery(query);	
 				 while(resultado.next()) {
 					 String[] coord = venta.split(",");
-//					 System.out.println("RESULTADO X = " + resultado.getString("X") + "COOR X = "+ coord[0]);
-//					 System.out.println("RESULTADO Y = " + resultado.getString("Y") + "COOR Y = "+ coord[1]);
 					 if(resultado.getString("X").equals(coord[0])  && resultado.getString("Y").equals(coord[1])) {
 						 query = "UPDATE TABLE(SELECT ventas FROM VVCITY " + 
 						 		  "WHERE codigoVendedor = " +codVendedor+ " AND Ciudad = '"+Ciudad+"')"
 						 		  + "SET v = v + "+coord[2]+" WHERE x = "+coord[0]+" AND y = "+coord[1];
-//						 System.out.println("Se sumó el resultado\n"+query);
 						 resultado = sentencia.executeQuery(query);
 						 aux = false;
 						 break;
@@ -121,7 +116,6 @@ public class ConexionBD extends JFrame {
 					 query = "INSERT INTO TABLE( SELECT ventas FROM VVCITY "+
 							 "WHERE codigoVendedor =" +codVendedor+ "AND Ciudad = '"+Ciudad+"')"+
 							 "VALUES ("+venta+")";
-//					 System.out.println("Se agregó el resultado\n"+query);
 					 resultado = sentencia.executeQuery(query);
 					 aux = false;
 				 }
