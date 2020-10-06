@@ -28,11 +28,95 @@ INSERT INTO CITY VALUES(
 </locales>')
 );
 
+UPDATE city 
+SET locales = XMLTYPE('
+<locales>
+<rectangulo>
+<a>10</a>
+<b>10</b>
+<c>4</c>
+<d>5</d>
+</rectangulo>
+<rectangulo>
+<a>40</a>
+<b>50</b>
+<c>5</c>
+<d>5</d>
+</rectangulo>
+<rectangulo>
+<a>80</a>
+<b>76</b>
+<c>10</c>
+<d>4</d>
+</rectangulo>
+</locales>')
+WHERE nombre_ciudad = 'Cali';
+
+--- Queries para Cali
+
+SELECT EXTRACTVALUE(locales,'locales/rectangulo[1]/a') AS a,
+       EXTRACTVALUE(locales,'locales/rectangulo[1]/b') AS b,
+       EXTRACTVALUE(locales,'locales/rectangulo[1]/c') AS c,
+       EXTRACTVALUE(locales,'locales/rectangulo[1]/d') AS d
+FROM city
+WHERE nombre_ciudad='Cali';
+
+SELECT EXTRACTVALUE(locales,'locales/rectangulo[2]/a') AS a,
+       EXTRACTVALUE(locales,'locales/rectangulo[2]/b') AS b,
+       EXTRACTVALUE(locales,'locales/rectangulo[2]/c') AS c,
+       EXTRACTVALUE(locales,'locales/rectangulo[2]/d') AS d
+FROM city
+WHERE nombre_ciudad='Cali';
+
+SELECT EXTRACTVALUE(locales,'locales/rectangulo[3]/a') AS a,
+       EXTRACTVALUE(locales,'locales/rectangulo[3]/b') AS b,
+       EXTRACTVALUE(locales,'locales/rectangulo[3]/c') AS c,
+       EXTRACTVALUE(locales,'locales/rectangulo[3]/d') AS d
+FROM city
+WHERE nombre_ciudad='Cali';
+
+SELECT EXTRACTVALUE(locales,'locales/rectangulo[4]/a') AS a,
+       EXTRACTVALUE(locales,'locales/rectangulo[4]/b') AS b,
+       EXTRACTVALUE(locales,'locales/rectangulo[4]/c') AS c,
+       EXTRACTVALUE(locales,'locales/rectangulo[4]/d') AS d
+FROM city
+WHERE nombre_ciudad='Cali';
+
+SELECT EXTRACTVALUE(locales,'locales/rectangulo[2]/a') AS a,
+       EXTRACTVALUE(locales,'locales/rectangulo[2]/b') AS b,
+       EXTRACTVALUE(locales,'locales/rectangulo[2]/c') AS c,
+       EXTRACTVALUE(locales,'locales/rectangulo[2]/d') AS d
+FROM city
+WHERE nombre_ciudad='New York';
+
+SELECT EXTRACTVALUE(locales,'locales/rectangulo[3]/a') AS a,
+       EXTRACTVALUE(locales,'locales/rectangulo[3]/b') AS b,
+       EXTRACTVALUE(locales,'locales/rectangulo[3]/c') AS c,
+       EXTRACTVALUE(locales,'locales/rectangulo[3]/d') AS d
+FROM city;
+WHERE nombre_ciudad = 'Los Angeles';
+
 Coordenadas:
 10, 10, 4, 5
 40, 50, 5, 5
 80, 76, 10, 4
+13, 13, 5, 3
+1, 1, 1, 1
 
+-- Update statement
+UPDATE city
+SET locales = XMLTYPE('<locales><rectangulo><a>10</a><b>10</b><c>4</c><d>5</d></rectangulo><rectangulo><a>40</a><b>50</b><c>5</c><d>5</d></rectangulo><rectangulo><a>80</a><b>76</b><c>10</c><d>4</d></rectangulo><rectangulo><a>1</a><b>1</b><c>1</c><d>1</d></rectangulo></locales>')
+WHERE nombre_ciudad = 'Cali';
+
+-- Estructura del XML
+XMLTYPE('<locales>
+		<rectangulo>
+			<a>10</a>
+			<b>10</b>
+			<c>4</c>
+			<d>5<d/>
+		</rectangulo>
+	</locales>')
 
 Conexión Nico
 this.conn = DriverManager.getConnection  
