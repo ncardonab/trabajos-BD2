@@ -1,120 +1,38 @@
+Query necesarios para ejecutar el programa
+--------------------------------
 DROP TABLE CITY;
 CREATE TABLE CITY(
 	Nombre_ciudad VARCHAR2(20) PRIMARY KEY,
 	Locales XMLTYPE
 );
 
-INSERT INTO CITY VALUES(
-'Cali',XMLTYPE('
-<locales>
-<rectangulo>
-<a>10</a>
-<b>10</b>
-<c>4</c>
-<d>5</d>
-</rectangulo>
-<rectangulo>
-<a>40</a>
-<b>50</b>
-<c>5</c>
-<d>5</d>
-</rectangulo>
-<rectangulo>
-<a>80</a>
-<b>76</b>
-<c>10</c>
-<d>4</d>
-</rectangulo>
-</locales>')
-);
+DROP TYPE coor_tip FORCE;
+CREATE OR REPLACE TYPE coor_tip
+AS OBJECT( 
+ x NUMBER(3), 
+ y NUMBER(10),
+ v NUMBER(10));
+/
 
---- Queries para Cali
+DROP TYPE nest_venta FORCE;
+CREATE OR REPLACE TYPE
+nest_venta AS TABLE OF coor_tip;
+/
 
-SELECT EXTRACTVALUE(locales,'locales/rectangulo[1]/a') AS a,
-       EXTRACTVALUE(locales,'locales/rectangulo[1]/b') AS b,
-       EXTRACTVALUE(locales,'locales/rectangulo[1]/c') AS c,
-       EXTRACTVALUE(locales,'locales/rectangulo[1]/d') AS d
-FROM city
-WHERE nombre_ciudad='Cali';
+DROP TYPE venta_tip FORCE;
+CREATE OR REPLACE TYPE venta_tip AS 
+OBJECT(CodigoVendedor NUMBER(5),
+	Ciudad VARCHAR2(20),
+	ventas nest_venta);
+/
 
-SELECT EXTRACTVALUE(locales,'locales/rectangulo[2]/a') AS a,
-       EXTRACTVALUE(locales,'locales/rectangulo[2]/b') AS b,
-       EXTRACTVALUE(locales,'locales/rectangulo[2]/c') AS c,
-       EXTRACTVALUE(locales,'locales/rectangulo[2]/d') AS d
-FROM city
-WHERE nombre_ciudad='Cali';
+DROP TABLE VVCITY;
+CREATE TABLE VVCITY OF venta_tip
+(PRIMARY KEY(CodigoVendedor, Ciudad)) 
+NESTED TABLE ventas STORE AS store_ventas
+((PRIMARY KEY(NESTED_TABLE_ID, x, y)));
 
-SELECT EXTRACTVALUE(locales,'locales/rectangulo[3]/a') AS a,
-       EXTRACTVALUE(locales,'locales/rectangulo[3]/b') AS b,
-       EXTRACTVALUE(locales,'locales/rectangulo[3]/c') AS c,
-       EXTRACTVALUE(locales,'locales/rectangulo[3]/d') AS d
-FROM city
-WHERE nombre_ciudad='Cali';
-
-SELECT EXTRACTVALUE(locales,'locales/rectangulo[4]/a') AS a,
-       EXTRACTVALUE(locales,'locales/rectangulo[4]/b') AS b,
-       EXTRACTVALUE(locales,'locales/rectangulo[4]/c') AS c,
-       EXTRACTVALUE(locales,'locales/rectangulo[4]/d') AS d
-FROM city
-WHERE nombre_ciudad='Cali';
-
-SELECT EXTRACTVALUE(locales,'locales/rectangulo[5]/a') AS a,
-       EXTRACTVALUE(locales,'locales/rectangulo[5]/b') AS b,
-       EXTRACTVALUE(locales,'locales/rectangulo[5]/c') AS c,
-       EXTRACTVALUE(locales,'locales/rectangulo[5]/d') AS d
-FROM city
-WHERE nombre_ciudad='Cali';
-
-SELECT EXTRACTVALUE(locales,'locales/rectangulo[2]/a') AS a,
-       EXTRACTVALUE(locales,'locales/rectangulo[2]/b') AS b,
-       EXTRACTVALUE(locales,'locales/rectangulo[2]/c') AS c,
-       EXTRACTVALUE(locales,'locales/rectangulo[2]/d') AS d
-FROM city
-WHERE nombre_ciudad='New York';
-
-SELECT EXTRACTVALUE(locales,'locales/rectangulo[3]/a') AS a,
-       EXTRACTVALUE(locales,'locales/rectangulo[3]/b') AS b,
-       EXTRACTVALUE(locales,'locales/rectangulo[3]/c') AS c,
-       EXTRACTVALUE(locales,'locales/rectangulo[3]/d') AS d
-FROM city;
-WHERE nombre_ciudad = 'Los Angeles';
-
-DELETE city;
-commit;
-SELECT * FROM city;
-
-Coordenadas:
-10, 10, 4, 5
-40, 50, 5, 5
-80, 76, 10, 4
-13, 13, 5, 3
-84, 74, 2, 4
-15, 11, 2, 2
-1, 1, 1, 1
-7, 10, 4, 1
-
--- Update statement
-UPDATE city
-SET locales = XMLTYPE('<locales><rectangulo><a>10</a><b>10</b><c>4</c><d>5</d></rectangulo><rectangulo><a>40</a><b>50</b><c>5</c><d>5</d></rectangulo><rectangulo><a>80</a><b>76</b><c>10</c><d>4</d></rectangulo><rectangulo><a>1</a><b>1</b><c>1</c><d>1</d></rectangulo></locales>')
-WHERE nombre_ciudad = 'Cali';
-
--- Estructura del XML
-XMLTYPE('<locales>
-		<rectangulo>
-			<a>10</a>
-			<b>10</b>
-			<c>4</c>
-			<d>5<d/>
-		</rectangulo>
-	</locales>')
-
-Conexión Nico
-this.conn = DriverManager.getConnection  
-        ("jdbc:oracle:thin:@LAPTOP-QRMV4NQS:1521:xe","nclsc","pass");
-
+--------------------------------------------------
+Credenciales
+("jdbc:oracle:thin:@LAPTOP-QRMV4NQS:1521:xe","nclsc","pass");
 ("jdbc:oracle:thin:@DESKTOP-LDB790I:1521:xe","di","1537");
-
-Para que el .ignore funcione
-git rm -r --cached .
-git add .
-git commit -m "Limpieza de Cache"  
