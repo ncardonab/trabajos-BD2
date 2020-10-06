@@ -56,7 +56,7 @@ public class ConexionBD extends JFrame {
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(queryInsertCity);
 			preparedStatement.executeUpdate();
-			System.out.println("Record is inserted into DBUSER table!\n");
+			System.out.println("La tabla fue insertada en la BD del usuario!\n");
 		} catch (SQLIntegrityConstraintViolationException err) {
 			this.updateCity(ciudad, locales);
 		} catch (SQLException e) {
@@ -119,7 +119,7 @@ public class ConexionBD extends JFrame {
 			System.out.println("Asegurate de hacer commit; en tu tabla para que los cambios se vean reflejados");
 			PreparedStatement preparedStatement = conn.prepareStatement(queryUpdateCity);
 			preparedStatement.executeQuery();
-			System.out.println("Record is updated into DBUSER table!\n");
+			System.out.println("El registro ha sido actualizado en BD del usuario!\n");
 			conn.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

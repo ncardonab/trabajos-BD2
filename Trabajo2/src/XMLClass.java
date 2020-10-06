@@ -2,20 +2,22 @@
 public class XMLClass {
 	
 	public static String parseToXML(String str) {
-		String xml = "<locales>";
-		 
-		String[] locales = str.split("\n");
-		for (String l:locales) {
-			xml += "<rectangulo>";
-			String[] coordenadas = l.split(",");
-			xml += "<a>" + coordenadas[0] + "</a>"+
-				 "<b>" + coordenadas[1] + "</b>"+
-				 "<c>" + coordenadas[2] + "</c>"+
-				 "<d>" + coordenadas[3] + "</d>";
-			xml += "</rectangulo>";
+		String xml = "";
+		if (!str.equals("")) {
+			xml = "<locales>";
+			String[] locales = str.split("\n");
+			for (String l:locales) {
+				xml += "<rectangulo>";
+				String[] coordenadas = l.split(",");
+				xml += "<a>" + coordenadas[0] + "</a>"+
+					 "<b>" + coordenadas[1] + "</b>"+
+					 "<c>" + coordenadas[2] + "</c>"+
+					 "<d>" + coordenadas[3] + "</d>";
+				xml += "</rectangulo>";
+			}
+			xml += "</locales>";
 		}
-		xml += "</locales>";
-		
+		 
 		return xml;
 	}
 	

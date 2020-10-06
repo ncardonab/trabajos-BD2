@@ -69,53 +69,57 @@ public class FormularioInicial extends Object {
 				String locales = textLocales.getText();
 				locales = locales.replaceAll(" ", "").replaceAll("\\r", "");
 				
-				// Dividiendo por ENTER
-				String[] loc = locales.split("\n");
-				
-				// Trayendo los locales por ciudad
-				int[][] localByCity = conexion.getLocalByCity(ciudad);
-				int localCount = localByCity.length;
-				
-				int noIntersectionCount = 0;
-				
-				for (String l:loc) {
-					String[] coord1 = l.split(",");
-					Rectangle rect1 = new Rectangle(Integer.parseInt(coord1[0]), 
-													Integer.parseInt(coord1[1]), 
-													Integer.parseInt(coord1[2]), 
-													Integer.parseInt(coord1[3]));
+				if (locales.equals("")) {
+					conexion.insertarCiudad(ciudad, "");
+				} else {						
+					// Dividiendo por ENTER
+					String[] loc = locales.split("\n");
 					
-					if (localCount == 0) {// No hay nada en la BD por eso ingresa el primero
-						conexion.insertarCiudad(ciudad, l);
-					} else {
-						innerfor: for (int i = 0; i < localCount; i++) {
-							int[] coord2 = localByCity[i];
-							Rectangle rect2 = new Rectangle(coord2[0], 
-															coord2[1], 
-															coord2[2], 
-															coord2[3]);
-							
-							// Si no hay interseccion, acumula el numero de no intersecciones
-							if (!Rectangle.intersection(rect1, rect2)) {
-								noIntersectionCount += 1;
-								// Local insertado!!
+					// Trayendo los locales por ciudad
+					int[][] localByCity = conexion.getLocalByCity(ciudad);
+					int localCount = localByCity.length;
+					
+					int noIntersectionCount = 0;
+					
+					for (String l:loc) {
+						String[] coord1 = l.split(",");
+						Rectangle rect1 = new Rectangle(Integer.parseInt(coord1[0]), 
+														Integer.parseInt(coord1[1]), 
+														Integer.parseInt(coord1[2]), 
+														Integer.parseInt(coord1[3]));
+						
+						if (localCount == 0) {// No hay nada en la BD por eso ingresa el primero
+							conexion.insertarCiudad(ciudad, l);
+						} else {
+							innerfor: for (int i = 0; i < localCount; i++) {
+								int[] coord2 = localByCity[i];
+								Rectangle rect2 = new Rectangle(coord2[0], 
+																coord2[1], 
+																coord2[2], 
+																coord2[3]);
 								
-							} else {
-								System.out.println("No se puede ingresar este local pues se intersecta con otro que existe en la ciudad!\n");
-								break innerfor;
-								// Local no insertado :(
-								// Una vez se encuentran una interseccion entre el loc[i] (local insertado pos i) y los que habian en la base de datos (localByCity)
+								// Si no hay interseccion, acumula el numero de no intersecciones
+								if (!Rectangle.intersection(rect1, rect2)) {
+									noIntersectionCount += 1;
+									// Local insertado!!
+									
+								} else {
+									System.out.println("No se puede ingresar este local pues se intersecta con otro que existe en la ciudad!\n");
+									break innerfor;
+									// Local no insertado :(
+									// Una vez se encuentran una interseccion entre el loc[i] (local insertado pos i) y los que habian en la base de datos (localByCity)
+								}
 							}
+						} 
+						
+						if (noIntersectionCount == localCount && localCount != 0) { // Significa que no se intersectó con ninguna
+							conexion.insertarCiudad(ciudad, l);
 						}
-					} 
-					
-					if (noIntersectionCount == localCount && localCount != 0) { // Significa que no se intersectó con ninguna
-						conexion.insertarCiudad(ciudad, l);
+						
+						localByCity = conexion.getLocalByCity(ciudad);
+						localCount = localByCity.length;
+						noIntersectionCount = 0;
 					}
-					
-					localByCity = conexion.getLocalByCity(ciudad);
-					localCount = localByCity.length;
-					noIntersectionCount = 0;
 				}
 			}
 		});
