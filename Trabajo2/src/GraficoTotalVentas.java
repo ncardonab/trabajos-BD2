@@ -18,13 +18,6 @@ public class GraficoTotalVentas extends JFrame {
    g.setColor(Color.white);
    g.fillRect(0,0,x,y);
  
-   g.setColor(Color.green);
-   for (int i = 0; i < y; i+=25) g.drawLine(0,i,x,i);
-   for (int i = 0; i < x; i+=25) g.drawLine(i,0,i,y);
- 
-   g.setColor(Color.red);
-   g.drawLine(x/2,0,x/2,y);
-   g.drawLine(0,y/2,x,y/2);
    g.setColor(Color.blue);  
   
     Connection conn;
@@ -66,6 +59,7 @@ public class GraficoTotalVentas extends JFrame {
     		int yr = resultado.getInt("b");
     		int wr = resultado.getInt("c");
     		int hr = resultado.getInt("d");
+    		g.setColor(Color.blue);
     		g.drawRect(resultado.getInt("a"),resultado.getInt("b"),resultado.getInt("c"),resultado.getInt("d"));
         	query = "SELECT t.x AS x, t.y AS y, t.v AS v " +
         			"FROM VVCITY c, TABLE(c.ventas) t " +
@@ -83,10 +77,12 @@ public class GraficoTotalVentas extends JFrame {
         			auxTotalVentas += resultadoVentas.getInt("v");
         		}
         	}
-        	
+        	g.setColor(Color.blue);
     		g.fillOval((2*xr+wr)/2,(2*yr+hr)/2,20,20);
+    		g.setColor(Color.black);
     		g.drawString("$"+auxSumaTotal,(2*xr+wr)/2,(2*yr+hr)/2);
     	}
+    	g.setColor(Color.green);
     	g.drawString("Total de ventas por fuera de los locales",150,460);
 		g.drawString("$"+auxTotalVentas,230,480);
     } catch(SQLException e ){      

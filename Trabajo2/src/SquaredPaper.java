@@ -18,13 +18,6 @@ public class SquaredPaper extends JFrame {
    g.setColor(Color.white);
    g.fillRect(0,0,x,y);
  
-   g.setColor(Color.green);
-   for (int i = 0; i < y; i+=25) g.drawLine(0,i,x,i);
-   for (int i = 0; i < x; i+=25) g.drawLine(i,0,i,y);
- 
-   g.setColor(Color.red);
-   g.drawLine(x/2,0,x/2,y);
-   g.drawLine(0,y/2,x,y/2);
    g.setColor(Color.blue);  
   
     Connection conn;
@@ -69,7 +62,9 @@ public class SquaredPaper extends JFrame {
     			" group by Ciudad,x,y";
     	resultado = sentencia.executeQuery(query);
     	while(resultado.next()) {
+    		g.setColor(Color.blue);  
     		g.fillOval(resultado.getInt("x"),resultado.getInt("y"),20,20);
+    		g.setColor(Color.black); 
     		g.drawString("$"+resultado.getInt("suma"),resultado.getInt("x"),resultado.getInt("y"));
     	}
     } catch(SQLException e ){      
