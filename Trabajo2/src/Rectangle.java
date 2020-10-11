@@ -35,9 +35,6 @@ public class Rectangle {
 		int heightNewRect = ybound - ymin - ydiff;
 		int yNewRect = ymax;
 		
-		
-		System.out.println("newRect" + xNewRect + ", " + yNewRect + ", " + widthNewRect + ", " + heightNewRect);
-		System.out.println(r2.toString());
 		// Si el ancho o el alto del nuevo rectangulo son negativos se encuentra una intersección
 		if (widthNewRect <= 0 || heightNewRect <= 0) {
 			// No se encontró ninguna intersección
