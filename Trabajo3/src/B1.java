@@ -2,7 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-public class Primero {
+public class B1 {
 
 	private JFrame frame;
 
@@ -13,7 +13,7 @@ public class Primero {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Primero window = new Primero();
+					B1 window = new B1();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -25,7 +25,7 @@ public class Primero {
 	/**
 	 * Create the application.
 	 */
-	public Primero() {
+	public B1() {
 		initialize();
 	}
 
