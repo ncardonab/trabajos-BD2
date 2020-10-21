@@ -1,18 +1,19 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 public class Tabla {
 	
 	public String nombre;
-	public ArrayList<String> atrs;
+	public HashSet<String> atrs;
 	
 	
 	public Tabla(String nombre, String atrs) {
 		this.nombre = nombre;
 		
 		atrs = atrs.replaceAll(" ", "").replaceAll("\\r", "");
-		ArrayList<String> listAtributos = new ArrayList<String>(Arrays.asList(atrs.split("\n")));
+		HashSet<String> listAtributos = new HashSet<String>(Arrays.asList(atrs.split("\n")));
 		this.atrs = listAtributos;
 	}
 
@@ -25,19 +26,19 @@ public class Tabla {
 		//Intersección T'2(S2)
 		ArrayList<String> t2s2 = new ArrayList<String>();
 		for(int i = 0; i < s2.size(); i++) {
-			ArrayList<String> s2i = new ArrayList<String>(Arrays.asList(s2.get(i).split(",")));
+			HashSet<String> s2i = new HashSet<String>(Arrays.asList(s2.get(i).split(",")));
 			s2i.retainAll(t2.atrs);
 			t2s2.addAll(s2i);
 		}
 		System.out.println("T'2(s2) = " + Arrays.toString(t2s2.toArray()));
 		
 		//Hallar T2'
-		ArrayList<String> t2p = new ArrayList<String>();
-		ArrayList<String> auxT2P = new ArrayList<String>();
-		ArrayList<String> t2pp = new ArrayList<String>();
+		HashSet<String> t2p = new HashSet<String>();
+		HashSet<String> auxT2P = new HashSet<String>();
+		HashSet<String> t2pp = new HashSet<String>();
 		for(int i = 0; i < s1.size(); i++) {
-			ArrayList<String> s1i = new ArrayList<String>(Arrays.asList(s1.get(i).split(",")));
-			ArrayList<String> auxS1i = new ArrayList<String>(s1i);
+			HashSet<String> s1i = new HashSet<String>(Arrays.asList(s1.get(i).split(",")));
+			HashSet<String> auxS1i = new HashSet<String>(s1i);
 			//Condicion para hallar T'2
 			s1i.removeAll(t2s2);
 			if(!s1i.equals(auxS1i)) {
@@ -75,62 +76,107 @@ public class Tabla {
 		return Qp;
 	}
 	
-	public static String regla4(Tabla t1, Tabla t2, Tabla t3, String S1, String S3) {
+	public static String regla4(Tabla t1, Tabla t2, Tabla t3, String S1T2, String S1T3, String S3) {
 		S3 = S3.replaceAll(" ", "");
-		S1 = S1.replaceAll(" ", "");
-		ArrayList<String> s3 = new ArrayList<String>(Arrays.asList(S2.split("\n")));
-		ArrayList<String> s1 = new ArrayList<String>(Arrays.asList(S1.split("\n")));		
+		S1T2 = S1T2.replaceAll(" ", "");
+		S1T3 = S1T3.replaceAll(" ", "");
+		ArrayList<String> s3 = new ArrayList<String>(Arrays.asList(S3.split("\n")));
+		ArrayList<String> s1t2 = new ArrayList<String>(Arrays.asList(S1T2.split("\n")));		
+		ArrayList<String> s1t3 = new ArrayList<String>(Arrays.asList(S1T3.split("\n")));
 		
-		//Intersección T'2(S2)
-		ArrayList<String> t2s2 = new ArrayList<String>();
+		//Hallar T'2
+		//Intersección T'2(S3)
+		ArrayList<String> t2s3 = new ArrayList<String>();
 		for(int i = 0; i < s3.size(); i++) {
-			ArrayList<String> s2i = new ArrayList<String>(Arrays.asList(s2.get(i).split(",")));
-			s2i.retainAll(t2.atrs);
-			t2s2.addAll(s2i);
+			HashSet<String> s3i = new HashSet<String>(Arrays.asList(s3.get(i).split(",")));
+			s3i.retainAll(t2.atrs);
+			t2s3.addAll(s3i);
 		}
-		System.out.println("T'2(s2) = " + Arrays.toString(t2s2.toArray()));
+		System.out.println("T'2(s3) = " + Arrays.toString(t2s3.toArray()));
 		
-		//Hallar T2'
-		ArrayList<String> t2p = new ArrayList<String>();
-		ArrayList<String> auxT2P = new ArrayList<String>();
-		ArrayList<String> t2pp = new ArrayList<String>();
-		for(int i = 0; i < s1.size(); i++) {
-			ArrayList<String> s1i = new ArrayList<String>(Arrays.asList(s1.get(i).split(",")));
-			ArrayList<String> auxS1i = new ArrayList<String>(s1i);
+		//Hallar T'2 y T''2
+		HashSet<String> t2p = new HashSet<String>();
+		HashSet<String> auxT2P = new HashSet<String>();
+		HashSet<String> t2pp = new HashSet<String>();
+		for(int i = 0; i < s1t2.size(); i++) {
+			HashSet<String> s1i = new HashSet<String>(Arrays.asList(s1t2.get(i).split(",")));
+			HashSet<String> auxS1i = new HashSet<String>(s1i);
 			//Condicion para hallar T'2
-			s1i.removeAll(t2s2);
+			s1i.removeAll(t2s3);
 			if(!s1i.equals(auxS1i)) {
 				auxT2P.addAll(s1i);
 			}
 			//Condición para hallar T''2
-			auxS1i.retainAll(t2s2);
+			auxS1i.retainAll(t2s3);
 			if(auxS1i.isEmpty()) {
-				t2pp.addAll(s1);
-				System.out.println("auxS1 Vacio");
+				t2pp.addAll(s1t2);
+				System.out.println("auxS1T2 Vacio");
 			}
 		}
-		t2p.addAll(t2s2);
+		t2p.addAll(t2s3);
 		t2p.addAll(auxT2P);
 		System.out.println("s1i-t2' = " + Arrays.toString(auxT2P.toArray()));
 		System.out.println("T'2 = " + Arrays.toString(t2p.toArray()));
-		
 		System.out.println("T''2 = " + Arrays.toString(t2pp.toArray()));
+		
+		//Hallar T'3
+		//Intersección T'3(S3)
+		HashSet<String> t3s3 = new HashSet<String>();
+		for(int i = 0; i < s3.size(); i++) {
+			HashSet<String> s3i = new HashSet<String>(Arrays.asList(s3.get(i).split(",")));
+			s3i.retainAll(t3.atrs);
+			t3s3.addAll(s3i);
+		}
+		System.out.println("T'3(s3) = " + Arrays.toString(t3s3.toArray()));
+		
+		//Hallar T'3 y T''3
+		HashSet<String> t3p = new HashSet<String>();
+		HashSet<String> auxT3P = new HashSet<String>();
+		HashSet<String> t3pp = new HashSet<String>();
+		for(int i = 0; i < s1t3.size(); i++) {
+			ArrayList<String> s1i = new ArrayList<String>(Arrays.asList(s1t3.get(i).split(",")));
+			System.out.println("S1i = " + Arrays.toString(s1i.toArray()));
+			ArrayList<String> auxS1i = new ArrayList<String>(s1i);
+			//Condicion para hallar T'2
+			s1i.removeAll(t3s3);
+			if(!s1i.equals(auxS1i)) {
+				auxT3P.addAll(s1i);
+			}
+			//Condición para hallar T''3
+			System.out.println("auxS1i = " + Arrays.toString(auxS1i.toArray()));
+			System.out.println("t3s3 = " + Arrays.toString(t3s3.toArray()));
+			auxS1i.retainAll(t3s3);
+			System.out.println("auxS1i" + Arrays.toString(auxS1i.toArray()));
+			if(auxS1i.isEmpty()) {
+				t3pp.addAll(s1t3);
+				System.out.println("auxS1T3 Vacio");
+			}
+		}
+		t3p.addAll(t3s3);
+		t3p.addAll(auxT3P);
+		System.out.println("s1i-t3' = " + Arrays.toString(auxT3P.toArray()));
+		System.out.println("T'3 = " + Arrays.toString(t3p.toArray()));
+		System.out.println("T''3 = " + Arrays.toString(t3pp.toArray()));
 		
 		ArrayList<String> t1i = new ArrayList<String>();
 		t1i.addAll(t1.atrs);
-		
+
 		String strT1i = Arrays.toString(t1i.toArray()).replace("[", "").replace("]", "");
 		String strT2p = Arrays.toString(t2p.toArray()).replace("[", "").replace("]", "");
-		String Qp;
-		if(t2pp.isEmpty()) {
-			Qp = "Q'={" +  strT1i + ", " + t2.nombre + "_of_" + t1.nombre + ": {"
-					+ strT2p + "}}";
-		} else {
+		String Qp = "Q'={" +  strT1i + ", " + t2.nombre + "_of_" + t1.nombre + ": {"
+				+ strT2p + "}, ";
+		if(!t2pp.isEmpty()) {
 			String strT2pp = Arrays.toString(t2pp.toArray()).replace("[", "").replace("]", "");
-			Qp = "Q'={" +  strT1i + ", " + t2.nombre + "_of_" + t1.nombre + ": {"
-					+ strT2p + "}, T''2:{"+ strT2pp + "}}";
+			Qp += "T''2:{" + strT2pp+ "}, ";
 		}
-		System.out.println(Qp);
-		return Qp;
+		String strT3p = Arrays.toString(t3p.toArray()).replace("[", "").replace("]", "");
+		Qp += t3.nombre + "_of_" + t1.nombre + ": {"
+				+ strT3p + "}";
+		if(!t3pp.isEmpty()) {
+			String strT3pp = Arrays.toString(t3pp.toArray()).replace("[", "").replace("]", "");
+			Qp += ", T''3:{" + strT3pp + "}";
+		}
+		System.out.println(Qp + "}");
+		return Qp + "}";
 	}
 }
