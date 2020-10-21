@@ -14,6 +14,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JButton;
+import java.awt.Font;
 
 public class A1 {
 
@@ -49,7 +50,7 @@ public class A1 {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 487, 429);
+		frame.setBounds(100, 100, 487, 463);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		txtT2 = new JTextField();
@@ -80,18 +81,23 @@ public class A1 {
 		JTextPane txtS1 = new JTextPane();
 		txtS1.setText("codd, capital");
 		
+		txtT1 = new JTextField();
+		txtT1.setText("PA\u00CDS");
+		txtT1.setColumns(10);
+		
+		JLabel labelQp = new JLabel("");
+		labelQp.setFont(new Font("Tahoma", Font.PLAIN, 14));
+
 		JButton btnQ = new JButton("Generar Q'");
 		btnQ.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Tabla t1 = new Tabla(txtT1.getText(), txtAtrT1.getText());
 				Tabla t2 = new Tabla(txtT2.getText(), txtAtrT2.getText());
-				Tabla.regla1(t1, t2, txtS1.getText(), txtS2.getText());
+				 String Qp = Tabla.regla1(t1, t2, txtS1.getText(), txtS2.getText());
+				labelQp.setText(Qp);
 			}
 		});
 		
-		txtT1 = new JTextField();
-		txtT1.setText("PA\u00CDS");
-		txtT1.setColumns(10);
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -109,11 +115,6 @@ public class A1 {
 					.addGap(247)
 					.addComponent(lblNewLabel))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(41)
-					.addComponent(txtS2, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-					.addGap(103)
-					.addComponent(txtS1, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(202)
 					.addComponent(btnQ))
 				.addGroup(groupLayout.createSequentialGroup()
@@ -121,15 +122,22 @@ public class A1 {
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
 						.addComponent(txtT1)
 						.addComponent(txtAtrT1, GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGap(35)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(txtAtrT2, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(103)
-							.addComponent(txtAtrT2, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-							.addGap(35)
 							.addComponent(label1M)
 							.addGap(38)
 							.addComponent(txtT2, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(41)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(labelQp, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+							.addComponent(txtS2, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
+							.addGap(103)
+							.addComponent(txtS1, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)))
+					.addGap(38))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -162,7 +170,10 @@ public class A1 {
 						.addComponent(txtS2, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtS1, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE))
 					.addGap(7)
-					.addComponent(btnQ))
+					.addComponent(btnQ)
+					.addGap(39)
+					.addComponent(labelQp)
+					.addContainerGap(33, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
