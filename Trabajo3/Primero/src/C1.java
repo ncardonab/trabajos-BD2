@@ -17,6 +17,7 @@ import com.jgoodies.forms.layout.FormSpecs;
 
 public class C1 {
 
+
 	private JFrame frame;
 	private JTextField txtT1;
 	private JTextField txtT2;
@@ -75,8 +76,6 @@ public class C1 {
 		
 		JLabel lblM = new JLabel("1 - M");
 		
-		JLabel labelQp = new JLabel("");
-		
 		txtT1 = new JTextField();
 		txtT1.setText("PA\u00CDS");
 		txtT1.setColumns(10);
@@ -99,6 +98,8 @@ public class C1 {
 		txtAtrT3.setText("codd \nidc \nnomc \npoblacion");
 		JButton btnQ = new JButton("Generar Q'");
 		
+		JLabel labelQp = new JLabel("");
+		
 		btnQ.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Tabla t1 = new Tabla(txtT1.getText(), txtAtrT1.getText());
@@ -108,6 +109,8 @@ public class C1 {
 				labelQp.setText(Qp);
 			}
 		});
+		
+		
 		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -134,25 +137,30 @@ public class C1 {
 					.addGap(298)
 					.addComponent(labelAtributos, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(56)
-					.addComponent(txtAtrT1, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-					.addGap(93)
-					.addComponent(txtAtrT2, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-					.addGap(103)
-					.addComponent(txtAtrT3, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(298)
 					.addComponent(labelS3)
 					.addGap(134)
 					.addComponent(labelS1))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(298)
-					.addComponent(txtS3, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-					.addGap(103)
-					.addComponent(txtS1, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(325)
 					.addComponent(btnQ))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(56)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(labelQp, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+								.addGap(242)
+								.addComponent(txtS3, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
+								.addGap(103)
+								.addComponent(txtS1, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(txtAtrT1, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
+							.addGap(93)
+							.addComponent(txtAtrT2, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
+							.addGap(103)
+							.addComponent(txtAtrT3, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+							.addGap(66))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -191,7 +199,10 @@ public class C1 {
 						.addComponent(txtS3, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtS1, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
 					.addGap(15)
-					.addComponent(btnQ))
+					.addComponent(btnQ)
+					.addGap(29)
+					.addComponent(labelQp)
+					.addContainerGap(42, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
