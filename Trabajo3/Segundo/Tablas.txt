@@ -1,0 +1,94 @@
+-- Locaciones
+DROP TABLE pais;
+CREATE TABLE pais(
+	nombre VARCHAR2(20) PRIMARY KEY,
+	moneda VARCHAR2(20) NOT NULL
+);
+
+DROP TABLE dpto;
+CREATE TABLE dpto(
+	codigo NUMBER(8) PRIMARY KEY,
+	nombre VARCHAR2(20) NOT NULL,
+	nom_pais VARCHAR2(20) NOT NULL,
+	CONSTRAINT fk_pais
+		FOREIGN KEY (nom_pais)
+		REFERENCES pais(nombre)
+);
+
+DROP TABLE ciudad;
+CREATE TABLE ciudad(
+	codigo NUMBER(8) PRIMARY KEY,
+	nombre VARCHAR2(20) NOT NULL,
+	poblacion NUMBER(8) NOT NULL,
+	cod_dpto NUMBER(8) NOT NULL,
+	CONSTRAINT fk_dpto
+		FOREIGN KEY (cod_dpto)
+		REFERENCES dpto(codigo)
+);
+ 
+DROP TABLE sucursal;
+CREATE TABLE sucursal(
+	codigo NUMBER(8) PRIMARY KEY,
+	nombre VARCHAR2(40) NOT NULL,
+	direccion VARCHAR2(300) NOT NULL,
+	cod_ciudad NUMBER(8) NOT NULL,
+	CONSTRAINT fk_ciudad
+		FOREIGN KEY (cod_ciudad)
+		REFERENCES ciudad(codigo)
+);
+
+-- Producto y marca
+DROP TABLE marca;
+CREATE TABLE marca(
+	nombre VARCHAR2(30) PRIMARY KEY,
+	descripcion VARCHAR2(300) NOT NULL
+);
+
+DROP TABLE producto;
+CREATE TABLE producto(
+	cod_barras NUMBER(8) PRIMARY KEY,
+	nombre VARCHAR2(100) NOT NULL,
+	tipo VARCHAR2(20) NOT NULL,
+	nom_marca VARCHAR2(30) NOT NULL,
+	CONSTRAINT fk_marca
+		FOREIGN KEY (nom_marca)
+		REFERENCES marca(nombre)
+);
+
+-- Personas (Gremio y Vendedores)
+DROP TABLE gremio;
+CREATE TABLE gremio(
+	codigo NUMBER(8) PRIMARY KEY,
+	nombre VARCHAR2(20) NOT NULL
+);
+
+DROP TABLE vendedor;
+CREATE TABLE vendedor(
+	codigo NUMBER(8) PRIMARY KEY,
+	nombre VARCHAR2(20) NOT NULL,
+	salario NUMBER(8) NOT NULL, 
+	cod_gremio NUMBER(8) NOT NULL,
+	CONSTRAINT fk_gremio
+		FOREIGN KEY (cod_gremio)
+		REFERENCES gremio(codigo)
+);
+
+
+-- Hijo en común Ventas
+DROP TABLE venta;
+CREATE TABLE venta(
+	codigo NUMBER(8) PRIMARY KEY,
+	valor NUMBER(8) NOT NULL,
+	cod_sucursal NUMBER(8) NOT NULL,
+	codbar_producto NUMBER(8) NOT NULL,
+	cod_vendedor NUMBER(8) NOT NULL,
+	CONSTRAINT fk_sucursal
+		FOREIGN KEY (cod_sucursal)
+		REFERENCES sucursal(codigo),
+	CONSTRAINT fk_producto
+		FOREIGN KEY (codbar_producto)
+		REFERENCES producto(cod_barras),
+	CONSTRAINT fk_vendedor
+		FOREIGN KEY (cod_vendedor)
+		REFERENCES vendedor(codigo)
+);

@@ -1,0 +1,60 @@
+-- Total de ventas por sucursal
+SELECT sucursal.codigo cod_sucursal, sucursal.nombre nom_sucursal, SUM(venta.valor) total_ventas
+FROM venta
+RIGHT JOIN sucursal ON venta.cod_sucursal=sucursal.codigo
+GROUP BY sucursal.codigo, sucursal.nombre;
+
+-- Total ventas por ciudad
+SELECT ciudad.codigo cod_ciudad, ciudad.nombre nom_ciudad, SUM(venta.valor) total_ventas
+FROM venta
+RIGHT JOIN sucursal ON venta.cod_sucursal=sucursal.codigo
+RIGHT JOIN ciudad ON sucursal.cod_ciudad=ciudad.codigo
+GROUP BY ciudad.codigo, ciudad.nombre;
+
+-- Total ventas por dpto
+SELECT dpto.codigo cod_dpto, dpto.nombre nom_dpto, SUM(venta.valor)  total_ventas
+FROM venta
+RIGHT JOIN sucursal ON venta.cod_sucursal=sucursal.codigo
+RIGHT JOIN ciudad ON sucursal.cod_ciudad=ciudad.codigo
+RIGHT JOIN dpto ON ciudad.cod_dpto=dpto.codigo
+GROUP BY dpto.codigo, dpto.nombre;
+
+-- Total ventas por país
+SELECT pais.nombre nom_pais, SUM(venta.valor)  total_ventas
+FROM venta
+RIGHT JOIN sucursal ON venta.cod_sucursal=sucursal.codigo
+RIGHT JOIN ciudad ON sucursal.cod_ciudad=ciudad.codigo
+RIGHT JOIN dpto ON ciudad.cod_dpto=dpto.codigo
+RIGHT JOIN pais ON dpto.nom_pais=pais.nombre
+GROUP BY pais.nombre;
+
+-- Total ventas por producto
+SELECT producto.cod_barras codbar_producto, producto.nombre nom_producto, SUM(venta.valor) total_ventas
+FROM venta
+RIGHT JOIN producto ON venta.codbar_producto=producto.cod_barras
+GROUP BY producto.cod_barras, producto.nombre;
+
+-- Total ventas por marca
+SELECT marca.nombre nom_marca, marca.descripcion, SUM(venta.valor) total_ventas
+FROM venta
+RIGHT JOIN producto ON venta.codbar_producto=producto.cod_barras
+RIGHT JOIN marca ON producto.nom_marca=marca.nombre
+GROUP BY marca.nombre, marca.descripcion;
+
+-- Total ventas por vendedor
+SELECT vendedor.codigo cod_vendedor, vendedor.nombre nom_vendedor, SUM(venta.valor) total_ventas
+FROM venta
+RIGHT JOIN vendedor ON venta.cod_vendedor=vendedor.codigo
+GROUP BY vendedor.codigo, vendedor.nombre;
+
+-- Total ventas por gremio
+SELECT gremio.codigo cod_gremio, gremio.nombre nom_gremio, SUM(venta.valor) total_ventas
+FROM venta
+RIGHT JOIN vendedor ON venta.cod_vendedor=vendedor.codigo
+RIGHT JOIN gremio ON vendedor.cod_gremio=gremio.codigo
+GROUP BY gremio.codigo, gremio.nombre;
+
+SELECT ciudad.codigo, ciudad.nombre, dpto.codigo, dpto.nombre
+FROM ciudad
+RIGHT JOIN dpto ON ciudad.cod_dpto=dpto.codigo
+ORDER BY dpto.nom_pais;
