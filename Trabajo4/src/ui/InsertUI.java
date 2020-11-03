@@ -302,11 +302,19 @@ public class InsertUI {
 					
 					// Llenando el Hash de rectangulos 
 		            int y = 0;
+		            int height = size;
 		            for (int i = 0; i < gridAmount; i++) {
-		                int x = 0;
+		            	
+		            	height = i == gridAmount - 1 ? 300 - y : size;
+		                
+		            	int x = 0;
+		                int width = size;
 		                for (int j = 0; j < gridAmount; j++) {
+		                	
+		                	width = j == gridAmount - 1 ? 300 - x : size;
+		                	
 		                	int rand = new Random().nextInt(scales[scales.length - 1][1] - scales[0][0]) + scales[0][0];
-		                	rects.put( id, new Rectangle(id, x, y, size, size, rand) );
+		                	rects.put( id, new Rectangle(id, x, y, width, height, rand) );
 		                    x += size;
 		                    id++;
 		                }
@@ -399,5 +407,10 @@ public class InsertUI {
 		}
 		
 		return intervals;
+	}
+
+	public void getTransactionsCoordinates() {
+		// Traémos las coordenadas de las transacciones
+		
 	}
 }

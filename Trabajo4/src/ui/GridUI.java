@@ -179,7 +179,12 @@ public class GridUI {
             	g.setColor(color);
             	g.fillRect(value.getX(), value.getY(), value.getWidth(), value.getHeight());            	
             	g.setColor(Color.black);
-//            	g.drawString(Integer.toBinaryString(value.getId()), (value.getX()+value.getY())/2, (value.getWidth()+value.getHeight())/2);
+            	int a = value.getX() + (value.getWidth())/2;
+            	int b = value.getY() + (value.getHeight())/2;
+            	System.out.println(value);
+            	System.out.println(String.format("a: %d, b: %d", a, b));
+            	
+            	g.drawString(Integer.toString(value.getId()), a, b);
             	g.drawRect(value.getX(), value.getY(), value.getWidth(), value.getHeight());
             });
             g.setColor(Color.black);
