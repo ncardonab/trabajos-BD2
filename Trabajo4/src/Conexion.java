@@ -38,3 +38,14 @@ public class Conexion {
     }
     
 }
+
+//Connection conn = Conexion.dbConexion();
+//Statement sentencia = null;
+//ResultSet resultado;
+//
+//try {
+//    sentencia = conn.createStatement();
+//} catch (SQLException e) {
+//    // TODO Auto-generated catch block
+//    e.printStackTrace();
+//}
