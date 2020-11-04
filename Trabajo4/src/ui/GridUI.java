@@ -3,6 +3,8 @@ package ui;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 
@@ -100,20 +102,47 @@ public class GridUI {
 		
 		JLabel lblNewLabel_1 = new JLabel("Ordenar por:");
 		
-		JButton btnNewButton = new JButton("Time");
-		btnNewButton.setFont(new Font("Roboto", Font.PLAIN, 12));
-		btnNewButton.setBackground(new Color(0, 250, 154));
-		btnNewButton.setForeground(new Color(0, 0, 0));
+		JButton btnTime = new JButton("Time");
+		btnTime.setFont(new Font("Roboto", Font.PLAIN, 12));
+		btnTime.setBackground(new Color(0, 250, 154));
+		btnTime.setForeground(new Color(0, 0, 0));
+		btnTime.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Ejecutar codigo de btnTime
+				
+			}
+		});
+		
 		
 		JButton btnValueusd = new JButton("Value_usd");
 		btnValueusd.setForeground(Color.BLACK);
 		btnValueusd.setFont(new Font("Roboto", Font.PLAIN, 12));
 		btnValueusd.setBackground(new Color(0, 250, 154));
+		btnValueusd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Ejecutar codigo de btnValueusd
+				
+			}
+		});
+		
 		
 		JButton btnFeeusd = new JButton("Fee_usd");
 		btnFeeusd.setForeground(Color.BLACK);
 		btnFeeusd.setFont(new Font("Roboto", Font.PLAIN, 12));
 		btnFeeusd.setBackground(new Color(0, 250, 154));
+		btnFeeusd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Ejecutar codigo de btnFeeusd
+				
+			}
+		});
+		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -124,7 +153,7 @@ public class GridUI {
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_1)
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(btnNewButton)
+							.addComponent(btnTime)
 							.addGap(18)
 							.addComponent(btnValueusd))
 						.addComponent(btnFeeusd))
@@ -141,7 +170,7 @@ public class GridUI {
 					.addComponent(lblNewLabel_1)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton)
+						.addComponent(btnTime)
 						.addComponent(btnValueusd))
 					.addGap(18)
 					.addComponent(btnFeeusd)
