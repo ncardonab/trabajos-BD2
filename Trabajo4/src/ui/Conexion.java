@@ -1,3 +1,4 @@
+package ui;
 import javax.swing.*;
 
 import javafx.scene.control.Alert;
@@ -27,7 +28,7 @@ public class Conexion {
         }
 
         try { // Se establece la conexión con la base de datos Oracle Express
-            conn = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-ANL3RGG0:1521:xe", "prueba", "admin");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@DESKTOP-LDB790I:1521:xe","di","1537");
             sentencia = conn.createStatement();
 
         } catch (SQLException e1) {

@@ -239,6 +239,10 @@ public class InsertUI {
 				// Formateo adecuado para los campos de tiempo, tamano cuadricula y configuracion de la escala de colores
 				String a = hrMinInicial.getText();
 				String b = hrMinFinal.getText();
+				
+				//Crear tabla auxiliar con datos de las horasm
+				Rectangle.createTableHours(a,b);
+				
 				int gridSideSize = Integer.parseInt(gridSize.getText());
 				String scaleConfStr = scalesConfiguration.getText();
 				
@@ -293,6 +297,7 @@ public class InsertUI {
 					// Lista de todos los rectangulos a mostrar
 					HashMap<Integer, Rectangle> rects = new HashMap<Integer, Rectangle>();
 					
+					
 					int scale = 3;
 					int scaled = gridSideSize * scale;
 					int size = scaled;
@@ -313,8 +318,9 @@ public class InsertUI {
 		                	
 		                	width = j == gridAmount - 1 ? 300 - x : size;
 		                	
-		                	int rand = new Random().nextInt(scales[scales.length - 1][1] - scales[0][0]) + scales[0][0];
-		                	rects.put( id, new Rectangle(id, x, y, width, height, rand) );
+//		                	int rand = new Random().nextInt(scales[scales.length - 1][1] - scales[0][0]) + scales[0][0];
+		                	int numTrans = Rectangle.getNumTransacciones(x, y, width, height);
+		                	rects.put( id, new Rectangle(id, x, y, width, height, numTrans) );
 		                    x += size;
 		                    id++;
 		                }
