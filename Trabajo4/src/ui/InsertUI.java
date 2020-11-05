@@ -414,9 +414,4 @@ public class InsertUI {
 		
 		return intervals;
 	}
-
-	public void getTransactionsCoordinates(String h0, String h1) {
-		// Traemos las coordenadas de las transacciones
-		
-	}
 }

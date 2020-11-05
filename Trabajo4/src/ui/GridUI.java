@@ -110,7 +110,8 @@ public class GridUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Ejecutar codigo de btnTime
+				Rectangle area = rects.get(Integer.parseInt(textField.getText()));
+				Rectangle.getQuery(area.getX(), area.getY(), area.getWidth(), area.getHeight(), "time");
 				
 			}
 		});
@@ -124,8 +125,8 @@ public class GridUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Ejecutar codigo de btnValueusd
-				
+				Rectangle area = rects.get(Integer.parseInt(textField.getText()));
+				Rectangle.getQuery(area.getX(), area.getY(), area.getWidth(), area.getHeight(), "value_usd");
 			}
 		});
 		
@@ -138,7 +139,8 @@ public class GridUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Ejecutar codigo de btnFeeusd
+				Rectangle area = rects.get(Integer.parseInt(textField.getText()));
+				Rectangle.getQuery(area.getX(), area.getY(), area.getWidth(), area.getHeight(), "fee_usd");
 				
 			}
 		});

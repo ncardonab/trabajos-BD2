@@ -78,7 +78,7 @@ public class Rectangle {
 		String query3 = "CREATE TABLE tranAux AS( " + 
 				"	select * " + 
 				"	from transaccion " + 
-				"	WHERE TO_DATE(SUBSTR(TO_CHAR(time),-5), 'HH24:MI') BETWEEN TO_DATE('00:00', 'HH24:MI') AND TO_DATE('00:00', 'HH24:MI') " + 
+				"	WHERE TO_DATE(SUBSTR(TO_CHAR(time),-5), 'HH24:MI') BETWEEN TO_DATE('"+h0+"', 'HH24:MI') AND TO_DATE('"+h1+"', 'HH24:MI') " + 
 				")";
 		try {
 		    sentencia = conn.createStatement();
@@ -96,6 +96,32 @@ public class Rectangle {
 		    sentencia = conn.createStatement();
 		    sentencia.execute(query3);
 		} catch (SQLException e) {
+		    e.printStackTrace();
+		}
+	}
+	
+	public static void getQuery(int x, int y, int width, int height, String order) {
+		Connection conn = Conexion.dbConexion();
+		Statement sentencia = null;
+		ResultSet resultado;
+		int xw = x + width;
+		int yh = y + height;
+		
+		String query = "select block_id, x, y, sender, recipient, value_usd, fee_usd, time " + 
+				"from tranAux " + 
+				"WHERE x BETWEEN " + x +" AND " + xw +
+				" AND y BETWEEN " + y +" AND " + yh +
+				" ORDER BY "+order;
+		System.out.println(query);
+		
+		try {
+		    sentencia = conn.createStatement();
+		    resultado = sentencia.executeQuery(query);
+		    while(resultado.next()) {
+		    	System.out.println("VALOR = " + resultado.getString(order));
+		    };
+		} catch (SQLException e) {
+		    // TODO Auto-generated catch block
 		    e.printStackTrace();
 		}
 	}
