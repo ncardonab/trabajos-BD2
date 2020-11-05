@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ import javax.swing.border.EmptyBorder;
 public class CartesianPlaneUI {
 
 	private JFrame frame;
-	private HashMap<String, List<Integer>> miners;
+	private HashMap<String, List<Double>> miners;
 
 	/**
 	 * Launch the application.
@@ -49,7 +50,7 @@ public class CartesianPlaneUI {
 		initialize();
 	}
 	
-	public CartesianPlaneUI(HashMap<String, List<Integer>> miners) {
+	public CartesianPlaneUI(HashMap<String, List<Double>> miners) {
 		initialize();
 		this.miners = miners;
 	}
@@ -82,7 +83,7 @@ public class CartesianPlaneUI {
 
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(1000, 500);
+            return new Dimension(1000, 800);
         }
 
         protected void paintComponent(Graphics g) {
@@ -97,19 +98,19 @@ public class CartesianPlaneUI {
 //            g.fillPolygon(new int[]{getHeight() - 16, getHeight(), getHeight()}, new int[]{getWidth() - 16, getWidth() - 16, getWidth()}, 3);
             
             miners.forEach((key, value) -> {
-            	List<Integer> earned = value;
+            	List<Double> earned = value;
             	Color color = new Color(new Random().nextInt(255), new Random().nextInt(255), new Random().nextInt(255));
             	
             	// Chequeando si hay valores repetidos para un mismo miner
-            	Set<Integer> set = new HashSet<Integer>(earned);
-            	for (Integer e: set) {
+            	Set<Double> set = new HashSet<Double>(earned);
+            	for (Double e: set) {
             		
             		int repeated = Collections.frequency(earned, e);
-            		String label = repeated > 1 ? String.format("(%d, %d)", e, repeated) : String.format("(%d)", e);
+            		String label = repeated > 1 ? String.format("(%f, %d)", Math.round(e * 100.0) / 100.0, repeated) : String.format("(%f)", Math.round(e * 100.0) / 100.0);
             		
-            		int money = e / 800;
+            		Integer money = (int)(e / 800);
             		g.setColor(color);
-            		g.drawString(String.format(label, e), money, getHeight() - money - 2);
+            		g.drawString(label, money, getHeight() - money - 2);
                     g.fillOval(money, getHeight() - money, 8, 8);
             		
 //            		System.out.println(e + ": " + Collections.frequency(earned, e));

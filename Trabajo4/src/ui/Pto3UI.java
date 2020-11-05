@@ -12,6 +12,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -114,15 +119,49 @@ public class Pto3UI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Obtener todos los miners de la base de datos
+				Connection conn = Conexion.dbConexion();
+				Statement sentencia = null;
+				ResultSet resultado;
 				
-				// Simulación
-				HashMap<String, List<Integer>> miners = new HashMap<String, List<Integer>>();
-				
-				miners.put("0x1e8839fead6924ad004c2560e90804164900ccc", Arrays.asList(8120, 80434, 120000));
-				miners.put("0x1e8877fead6924ad004c2560e90804164999ddd", Arrays.asList(4000, 4000, 5100, 321655, 321655, 321655));
-				
+				System.out.println("textField : "+textField.getText());
+				System.out.println("textField_1 : "+textField_1.getText());
+				System.out.println("textField_2 : "+textField_2.getText());
+				System.out.println("textField_3 : "+textField_3.getText());
 				
 				
+				String query = "ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY HH24:MI'";
+				String query2 = "select bloque.miner, transaccion.value_usd  " + 
+						"from transaccion " + 
+						"INNER JOIN bloque ON transaccion.block_id = bloque.id " + 
+						"Where bloque.miner = '"+textField_1.getText()+"' OR bloque.miner = '"+textField_3.getText()+"' AND " + 
+						"TO_DATE(SUBSTR(TO_CHAR(transaccion.time),-5), 'HH24:MI') BETWEEN TO_DATE('00:00', 'HH24:MI') AND TO_DATE('00:06', 'HH24:MI')";
+				
+				System.out.println(query2);
+				
+				HashMap<String, List<Double>> miners = new HashMap<String, List<Double>>();
+				
+				try {
+				    sentencia = conn.createStatement();
+				    sentencia.execute(query);
+				} catch (SQLException f) {
+					f.printStackTrace();
+				}
+				try {
+				    sentencia = conn.createStatement();
+				    resultado = sentencia.executeQuery(query2);
+				    while(resultado.next()) {
+				    	System.out.println(resultado.getString("miner")+ " "+ resultado.getDouble("value_usd"));
+				    	if(miners.containsKey(resultado.getString("miner"))) {
+				    		miners.get(resultado.getString("miner")).add(resultado.getDouble("value_usd"));
+				    	} else {
+				    		List<Double> l = new ArrayList<Double>();
+				    		l.add(resultado.getDouble("value_usd"));
+				    		miners.put(resultado.getString("miner"), l);
+				    	}
+				    };
+				} catch (SQLException f) {
+				    f.printStackTrace();
+				}
 				CartesianPlaneUI cartesianPlane = new CartesianPlaneUI(miners);
 			}
 		});
