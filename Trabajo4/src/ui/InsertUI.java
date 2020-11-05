@@ -319,7 +319,7 @@ public class InsertUI {
 		                	width = j == gridAmount - 1 ? 300 - x : size;
 		                	
 //		                	int rand = new Random().nextInt(scales[scales.length - 1][1] - scales[0][0]) + scales[0][0];
-		                	int numTrans = Rectangle.getNumTransacciones(x, y, width, height);
+		                	int numTrans = Rectangle.getNumTransacciones(x / 3, y / 3, width / 3, height / 3);
 		                	rects.put( id, new Rectangle(id, x, y, width, height, numTrans) );
 		                    x += size;
 		                    id++;

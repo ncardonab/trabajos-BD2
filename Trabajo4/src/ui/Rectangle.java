@@ -45,14 +45,17 @@ public class Rectangle {
 		Connection conn = Conexion.dbConexion();
 		Statement sentencia = null;
 		ResultSet resultado;
+		
 		int xw = x + width;
 		int yh = y + height;
+		x = x != 0 ? x + 1 : x;
+		y = y != 0 ? y + 1 : y;
 		
 		String query = "select COUNT(*) " + 
 				"from tranAux " + 
 				"WHERE x BETWEEN " + x +" AND " + xw +
 				" AND y BETWEEN " + y +" AND " + yh;
-		System.out.println(query);
+//		System.out.println(query);
 		
 		try {
 		    sentencia = conn.createStatement();
@@ -100,29 +103,5 @@ public class Rectangle {
 		}
 	}
 	
-	public static void getQuery(int x, int y, int width, int height, String order) {
-		Connection conn = Conexion.dbConexion();
-		Statement sentencia = null;
-		ResultSet resultado;
-		int xw = x + width;
-		int yh = y + height;
-		
-		String query = "select block_id, x, y, sender, recipient, value_usd, fee_usd, time " + 
-				"from tranAux " + 
-				"WHERE x BETWEEN " + x +" AND " + xw +
-				" AND y BETWEEN " + y +" AND " + yh +
-				" ORDER BY "+order;
-		System.out.println(query);
-		
-		try {
-		    sentencia = conn.createStatement();
-		    resultado = sentencia.executeQuery(query);
-		    while(resultado.next()) {
-		    	System.out.println("VALOR = " + resultado.getString(order));
-		    };
-		} catch (SQLException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
-		}
-	}
+	
 }

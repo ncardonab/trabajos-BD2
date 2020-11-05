@@ -111,8 +111,8 @@ public class GridUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Rectangle area = rects.get(Integer.parseInt(textField.getText()));
-				Rectangle.getQuery(area.getX(), area.getY(), area.getWidth(), area.getHeight(), "time");
-				
+				TableUI table = new TableUI();
+				table.getQuery(area.getX() / 3, area.getY() / 3, area.getWidth() / 3, area.getHeight() / 3, "time");
 			}
 		});
 		
@@ -126,7 +126,8 @@ public class GridUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Rectangle area = rects.get(Integer.parseInt(textField.getText()));
-				Rectangle.getQuery(area.getX(), area.getY(), area.getWidth(), area.getHeight(), "value_usd");
+				TableUI table = new TableUI();
+				table.getQuery(area.getX() / 3, area.getY() / 3, area.getWidth() / 3, area.getHeight() / 3, "value_usd");
 			}
 		});
 		
@@ -140,8 +141,8 @@ public class GridUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Rectangle area = rects.get(Integer.parseInt(textField.getText()));
-				Rectangle.getQuery(area.getX(), area.getY(), area.getWidth(), area.getHeight(), "fee_usd");
-				
+				TableUI table = new TableUI();
+				table.getQuery(area.getX() / 3, area.getY() / 3, area.getWidth() / 3, area.getHeight() / 3, "fee_usd");
 			}
 		});
 		
@@ -201,7 +202,6 @@ public class GridUI {
             	Color color = new Color(0, 250, 154);
             	
             	for (int i = 0; i < scales.length; i++) {
-//            		System.out.println(String.format("%d <= %d <= %d", scales[i][0], value.getTransactions(), scales[i][1]));
             		if (value.getTransactions() >= scales[i][0] && value.getTransactions() <= scales[i][1]) {
             			color = new Color(colors.get(i)[0], colors.get(i)[1], colors.get(i)[2]);            			
             		}
@@ -210,10 +210,9 @@ public class GridUI {
             	g.setColor(color);
             	g.fillRect(value.getX(), value.getY(), value.getWidth(), value.getHeight());            	
             	g.setColor(Color.black);
+            	
             	int a = value.getX() + (value.getWidth())/2;
             	int b = value.getY() + (value.getHeight())/2;
-            	System.out.println(value);
-            	System.out.println(String.format("a: %d, b: %d", a, b));
             	
             	g.drawString(Integer.toString(value.getId()), a, b);
             	g.drawRect(value.getX(), value.getY(), value.getWidth(), value.getHeight());

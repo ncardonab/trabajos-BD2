@@ -28,7 +28,7 @@ public class Conexion {
         }
 
         try { // Se establece la conexión con la base de datos Oracle Express
-            conn = DriverManager.getConnection("jdbc:oracle:thin:@DESKTOP-LDB790I:1521:xe","di","1537");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@LAPTOP-QRMV4NQS:1521:xe","nclsc","pass");
             sentencia = conn.createStatement();
 
         } catch (SQLException e1) {
