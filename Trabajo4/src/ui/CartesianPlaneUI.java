@@ -59,7 +59,7 @@ public class CartesianPlaneUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame("Testing");
+		frame = new JFrame("Comparaci\u00F3n creciente value_usd");
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         JPanel contentPanel = new JPanel();
@@ -83,7 +83,7 @@ public class CartesianPlaneUI {
 
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(1000, 800);
+            return new Dimension(1000, 600);
         }
 
         protected void paintComponent(Graphics g) {
@@ -95,7 +95,6 @@ public class CartesianPlaneUI {
             g.drawLine(0, getHeight() - 1, getWidth(), getHeight() - 1);  
             g.drawPolygon(new int[]{0, 0, 4}, new int[]{0, 10, 10}, 3);
             g.drawPolygon(new int[]{getWidth() - 6, getWidth() - 6, getWidth()}, new int[]{getHeight() - 6, getHeight(), getHeight()}, 3);
-//            g.fillPolygon(new int[]{getHeight() - 16, getHeight(), getHeight()}, new int[]{getWidth() - 16, getWidth() - 16, getWidth()}, 3);
             
             miners.forEach((key, value) -> {
             	List<Double> earned = value;
@@ -105,15 +104,19 @@ public class CartesianPlaneUI {
             	Set<Double> set = new HashSet<Double>(earned);
             	for (Double e: set) {
             		
+            		String label = "";
             		int repeated = Collections.frequency(earned, e);
-            		String label = repeated > 1 ? String.format("(%f, %d)", Math.round(e * 100.0) / 100.0, repeated) : String.format("(%f)", Math.round(e * 100.0) / 100.0);
+            		
+            		if (e - (int) Math.round(e) == 0.0) {
+            			label = repeated > 1 ? String.format("(%d, %d)", (int) Math.round(e), repeated) : String.format("(%d)", (int) Math.round(e));
+            		} else {
+            			label = repeated > 1 ? String.format("(%.2f, %d)", e, repeated) : String.format("(%.2f)", e); 
+            		}
             		
             		Integer money = (int)(e / 800);
             		g.setColor(color);
             		g.drawString(label, money, getHeight() - money - 2);
                     g.fillOval(money, getHeight() - money, 8, 8);
-            		
-//            		System.out.println(e + ": " + Collections.frequency(earned, e));
             	}
             });
             g2d.dispose();
