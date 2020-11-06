@@ -108,9 +108,9 @@ public class CartesianPlaneUI {
             		int repeated = Collections.frequency(earned, e);
             		
             		if (e - (int) Math.round(e) == 0.0) {
-            			label = repeated > 1 ? String.format("(%d, %d)", (int) Math.round(e), repeated) : String.format("(%d)", (int) Math.round(e));
+            			label = repeated > 1 ? String.format("(%d; %d)", (int) Math.round(e), repeated) : String.format("(%d)", (int) Math.round(e));
             		} else {
-            			label = repeated > 1 ? String.format("(%.2f, %d)", e, repeated) : String.format("(%.2f)", e); 
+            			label = repeated > 1 ? String.format("(%.2f; %d)", e, repeated) : String.format("(%.2f)", e); 
             		}
             		
             		Integer money = (int)(e / 800);
