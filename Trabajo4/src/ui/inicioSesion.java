@@ -64,6 +64,9 @@ public class inicioSesion {
 			public void actionPerformed(ActionEvent e) {
 				
 				String usuarioInsertado = textUsuario.getText().toString();
+				usuarioInsertado = usuarioInsertado.replaceAll("\\s", "");
+				usuarioInsertado = usuarioInsertado.toLowerCase();
+				
 				String contrasena = passwordField.getText().toString();
 				
 				Connection conn = Conexion.dbConexion();
@@ -74,14 +77,22 @@ public class inicioSesion {
 					sentencia = conn.createStatement();
 					resultado = sentencia.executeQuery(query);
 					
+					String pwdSistema = null;
+					
 					while(resultado.next()) {
-						String pwdSistema = resultado.getString("contraseña");
+						pwdSistema = resultado.getString("contraseña");
 						if(pwdSistema.equals(contrasena)) {
 							
-							// Cambiar por la intefaz del punto 3
+							// Cambiar por la intefaz del punto 6
+							usuarioMultichain usmr = new usuarioMultichain(usuarioInsertado);
+							frame.setVisible(false);
 							
-							JOptionPane.showMessageDialog(null, "El usuario ha iniciado sesión satisfactoriamente",
-			                        "Inicio Correcto", JOptionPane.INFORMATION_MESSAGE);
+							
+						}else if(pwdSistema.equals(null)){
+							JOptionPane.showMessageDialog(null, "Al parecer el usuario No existe en nuestra base de datos,"
+									+ " Por favor revise la información o registrese en caso de ser necesario",
+			                        "Error", JOptionPane.INFORMATION_MESSAGE);
+							
 						}else {
 							
 							JOptionPane.showMessageDialog(null, "Revise Los Datos Suministrados",

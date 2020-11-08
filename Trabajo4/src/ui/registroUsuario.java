@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import multichain.*;
 import multichain.command.*;
@@ -70,6 +71,9 @@ public class registroUsuario {
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String usuarioInsertado = textUsuario.getText().toString();
+				usuarioInsertado = usuarioInsertado.replaceAll("\\s", "");
+				usuarioInsertado = usuarioInsertado.toLowerCase();
+				
 				String contrasena = passwordField.getText().toString();
 				
 				registrarbd(usuarioInsertado, contrasena);
@@ -157,8 +161,14 @@ public class registroUsuario {
 				String query1 = " UPDATE USUARIOS SET DIRECCION ='"+result+"' WHERE NOMBRE_USUARIO = '"+usuario+"'";
 				sentencia = conn.createStatement();
 				resultado = sentencia.executeQuery(query1);
+
+				commandManager.invoke(CommandElt.GRANT, result, "connect,send,receive");
+				
 				JOptionPane.showMessageDialog(null, "El usuario ha sido Creado Satisfactoriamente",
                         "Registro Satisfactorio", JOptionPane.INFORMATION_MESSAGE);	
+				textUsuario.setText("");
+				passwordField.setText("");
+			
 				
 				
 			} catch (MultichainException e2) {
