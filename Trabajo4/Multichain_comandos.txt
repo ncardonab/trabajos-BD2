@@ -1,0 +1,32 @@
+Conexion.java 
+
+Esteban : "jdbc:oracle:thin:@LAPTOP-ANL3RGG0:1521:xe", "prueba", "admin"
+
+CREATE TABLE USUARIOS 
+(
+  NOMBRE_USUARIO VARCHAR2(50) NOT NULL 
+, CONTRASEÑA VARCHAR2(50) 
+, DIRECCION VARCHAR2(150) 
+, CONSTRAINT USUARIOS_PK PRIMARY KEY 
+  (
+    NOMBRE_USUARIO 
+  )
+  ENABLE 
+);
+
+
+INSERT INTO "PRUEBA"."USUARIOS" (NOMBRE_USUARIO, "CONTRASEÑA") VALUES ('admin', 'admin');
+
+
+multichain-util create bdchain
+
+multichain-cli bdchain getaddresses 
+
+multichain-cli bdchain issue 1XpYN3A25SiDiXvYC5aL6VoYUsJEfFpxXk8ST5 bdcoin 1000000 0.01
+
+
+multihain-cli bdchain getnewaddress
+
+
+
+1R6WVoVsYQmTX4VkJP2ivyd5gkVrQeQF8Tqj9F
