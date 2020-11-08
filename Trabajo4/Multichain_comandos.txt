@@ -1,3 +1,7 @@
+Conexion.java 
+
+Esteban : "jdbc:oracle:thin:@LAPTOP-ANL3RGG0:1521:xe", "prueba", "admin"
+
 CREATE TABLE USUARIOS 
 (
   NOMBRE_USUARIO VARCHAR2(50) NOT NULL 
