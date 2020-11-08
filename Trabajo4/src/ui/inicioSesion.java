@@ -72,7 +72,7 @@ public class inicioSesion {
 				Connection conn = Conexion.dbConexion();
 				Statement sentencia = null;
 				ResultSet resultado;
-				String query = "SELECT CONTRASEÑA FROM USUARIOS WHERE NOMBRE_USUARIO ='"+ usuarioInsertado+"'";
+				String query = "SELECT CONTRASENA FROM USUARIOS WHERE NOMBRE_USUARIO ='"+ usuarioInsertado+"'";
 				try {
 					sentencia = conn.createStatement();
 					resultado = sentencia.executeQuery(query);
@@ -80,7 +80,7 @@ public class inicioSesion {
 					String pwdSistema = null;
 					
 					while(resultado.next()) {
-						pwdSistema = resultado.getString("contraseña");
+						pwdSistema = resultado.getString("contrasena");
 						if(pwdSistema.equals(contrasena)) {
 							
 							// Cambiar por la intefaz del punto 6

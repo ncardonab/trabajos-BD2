@@ -35,7 +35,7 @@ public class usuarioMultichain {
 			public void run() {
 				try {
 					usuarioMultichain window = new usuarioMultichain("");
-					window.frame.setVisible(true);
+					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
