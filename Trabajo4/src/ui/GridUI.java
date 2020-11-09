@@ -202,9 +202,17 @@ public class GridUI {
             	Color color = new Color(0, 250, 154);
             	
             	for (int i = 0; i < scales.length; i++) {
-            		if (value.getTransactions() >= scales[i][0] && value.getTransactions() <= scales[i][1]) {
-            			color = new Color(colors.get(i)[0], colors.get(i)[1], colors.get(i)[2]);            			
+            		
+            		if (i == scales.length - 1) {
+            			if (value.getTransactions() >= scales[i][0]) {
+            				color = new Color(colors.get(i)[0], colors.get(i)[1], colors.get(i)[2]);
+            			}
+            		} else {            			
+	            		if (value.getTransactions() >= scales[i][0] && value.getTransactions() <= scales[i][1]) {
+	            			color = new Color(colors.get(i)[0], colors.get(i)[1], colors.get(i)[2]);            			
+	            		}
             		}
+            		
             	}
             	
             	g.setColor(color);
