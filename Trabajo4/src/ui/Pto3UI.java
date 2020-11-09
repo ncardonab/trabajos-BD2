@@ -17,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -121,14 +120,14 @@ public class Pto3UI {
 				// Obtener todos los miners de la base de datos
 				Connection conn = Conexion.dbConexion();
 				Statement sentencia = null;
-				ResultSet resultado;				
+				ResultSet resultado;
 				
 				String query = "ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY HH24:MI'";
 				String query2 = "select bloque.miner, transaccion.value_usd  " + 
 						"from transaccion " + 
 						"INNER JOIN bloque ON transaccion.block_id = bloque.id " + 
 						"Where bloque.miner = '"+textField_1.getText()+"' OR bloque.miner = '"+textField_3.getText()+"' AND " + 
-						"TO_DATE(SUBSTR(TO_CHAR(transaccion.time),-5), 'HH24:MI') BETWEEN TO_DATE('00:00', 'HH24:MI') AND TO_DATE('00:06', 'HH24:MI')";
+						"TO_DATE(SUBSTR(TO_CHAR(transaccion.time),-5), 'HH24:MI') BETWEEN TO_DATE('"+textField.getText()+"', 'HH24:MI') AND TO_DATE('"+textField_2.getText()+"', 'HH24:MI')";
 				
 				HashMap<String, List<Double>> miners = new HashMap<String, List<Double>>();
 				
