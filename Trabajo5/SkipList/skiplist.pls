@@ -1,4 +1,5 @@
 set SERVEROUTPUT on
+
 CREATE OR REPLACE PROCEDURE CrearSL(maxPtrs NUMBER) IS
     n pls_integer;
 BEGIN
@@ -9,6 +10,8 @@ BEGIN
 
     dbms_output.put_line(n);
 
+    
+
 END;
 /
 
@@ -16,6 +19,16 @@ BEGIN
 CrearSL(8);
 END;
 /
+
+
+
+
+
+
+
+
+
+
 
 CREATE OR REPLACE PROCEDURE punto1(var_n NUMBER) IS
     CURSOR tabla IS SELECT DISTINCT codpv, codproducto FROM venta ORDER BY codpv,codproducto; 
