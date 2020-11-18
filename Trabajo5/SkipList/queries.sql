@@ -4,8 +4,6 @@ CREATE TABLE empleado(
     depE NUMBER(8) NOT NULL
 );
 
-
-
 CREATE TABLE departamento(
     codigoD NUMBER(8) PRIMARY KEY,
     nombreD VARCHAR2(20) NOT NULL,
@@ -20,33 +18,34 @@ INSERT INTO departamento VALUES(55,'dep55','carrera dep 5');
 INSERT INTO departamento VALUES(66,'dep666','calle dep 6');
 
 
+--Crear tabla indexdepskip
+DROP TYPE puntero_tip FORCE;
 CREATE OR REPLACE TYPE puntero_tip AS OBJECT(
     numnodo NUMBER
 );
 /
 
-CREATE TABLE puntero OF puntero_tip
-(numnodo PRIMARY KEY);
-
-INSERT INTO puntero VALUES(22);
-INSERT INTO puntero VALUES(33);
-
-CREATE OR REPLACE TYPE ptrs_varray AS
-VARRAY(10) OF REF puntero_tip;
+DROP TYPE nest_puntero FORCE;
+CREATE OR REPLACE TYPE nest_puntero AS TABLE OF puntero_tip;
 /
 
-DROP TYPE indexdepskip_tip FORCE;
-CREATE TYPE indexdepskip_tip AS object(
+DROP TYPE indexdepskip_type FORCE;
+CREATE OR REPLACE TYPE indexdepskip_type AS OBJECT(
     numnodo NUMBER,
     codigoD NUMBER(8),
     nombreD VARCHAR2(20),
     direccionD VARCHAR(20),
-    grupoDePunteros ptrs_varray,
-    ptrback puntero_tip
+    grupoDePunteros nest_puntero,
+    ptrback NUMBER
 );
 /
 
-DROP TABLE  indexdepskip FORCE;
-CREATE TABLE indexdepskip OF indexdepskip_tip(
-    numnodo PRIMARY KEY
-);
+DROP TABLE indexdepskip FORCE;
+CREATE TABLE indexdepskip OF indexdepskip_type
+(numnodo PRIMARY KEY)
+NESTED TABLE grupoDePunteros STORE AS store_punteros
+((PRIMARY KEY(NESTED_TABLE_ID, numnodo)));
+
+
+INSERT INTO indexdepskip VALUES(
+    1, 11, 'Antioquia', 'calle 2', nest_puntero(puntero_tip(2)), 0);
