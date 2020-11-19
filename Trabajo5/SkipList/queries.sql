@@ -57,3 +57,6 @@ SELECT t.* FROM indexdepskip index, TABLE(index.grupoDePunteros) t;
 INSERT INTO indexdepskip VALUES(
     6, 50, 'hola', 'carrera', NULL, 5
 );
+
+
+DELETE FROM departamento WHERE codigoD=33;

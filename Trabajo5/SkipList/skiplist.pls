@@ -43,15 +43,15 @@ BEGIN
                 EXIT;
             END IF;
             SELECT dbms_random.value(0,1) num into ran FROM dual;
-            dbms_output.put_line(ran);
             dbms_output.put_line('J ES: ' || j);
+            dbms_output.put_line(ran);
             i := mis_punteros.NEXT(j);
             IF j = mis_punteros.LAST+1 THEN
                 EXIT;
             END IF;
             IF ran = 0 THEN
                 BEGIN
-                    IF i IS NOT NULL THEN
+                    IF i IS NOT NULL AND j <> 0 THEN
                         INSERT INTO TABLE(SELECT grupoDePunteros FROM indexdepskip WHERE numnodo = j)
                         VALUES(mis_punteros(i));
                     END IF;
