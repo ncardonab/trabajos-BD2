@@ -36,7 +36,7 @@ BEGIN
         i := i + 1;
     END LOOP;
     
-    WHILE mis_punteros.COUNT > 0 AND iter <= maxPtrs LOOP
+    WHILE mis_punteros.COUNT > 1 AND iter <= maxPtrs LOOP
         j := mis_punteros.FIRST;
         WHILE j IS NOT NULL LOOP
             IF j = mis_punteros.LAST THEN
