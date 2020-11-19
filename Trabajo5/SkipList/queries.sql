@@ -49,3 +49,11 @@ NESTED TABLE grupoDePunteros STORE AS store_punteros
 
 INSERT INTO indexdepskip VALUES(
     1, 11, 'Antioquia', 'calle 2', nest_puntero(puntero_tip(2)), 0);
+
+SELECT numnodo, codigoD, grupoDePunteros FROM indexdepskip;
+
+SELECT t.* FROM indexdepskip index, TABLE(index.grupoDePunteros) t;
+
+INSERT INTO indexdepskip VALUES(
+    6, 50, 'hola', 'carrera', NULL, 5
+);
