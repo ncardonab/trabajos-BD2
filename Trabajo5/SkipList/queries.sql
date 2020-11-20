@@ -44,7 +44,7 @@ DROP TABLE indexdepskip FORCE;
 CREATE TABLE indexdepskip OF indexdepskip_type
 (numnodo PRIMARY KEY)
 NESTED TABLE grupoDePunteros STORE AS store_punteros
-((PRIMARY KEY(NESTED_TABLE_ID, numnodo)));
+;
 
 
 INSERT INTO indexdepskip VALUES(
@@ -55,6 +55,5 @@ SELECT numnodo, codigoD, grupoDePunteros FROM indexdepskip;
 INSERT INTO indexdepskip VALUES(
     6, 50, 'hola', 'carrera', NULL, 5
 );
-
 
 DELETE FROM departamento WHERE codigoD=66;
