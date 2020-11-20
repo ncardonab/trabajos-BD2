@@ -21,15 +21,6 @@ BEGIN
         1, NULL, NULL, NULL, nest_puntero(puntero_tip(2)), NULL
     );
     FOR dep IN (SELECT * FROM departamento ORDER BY codigoD) LOOP
-        -- IF i = c THEN
-        --     INSERT INTO indexdepskip VALUES(
-        --         i, dep.codigoD, dep.nombreD, dep.direccionD, NULL, i-1
-        --     );
-        -- ELSE
-        --     INSERT INTO indexdepskip VALUES(
-        --         i, dep.codigoD, dep.nombreD, dep.direccionD, nest_puntero(puntero_tip(i+1)), i-1
-        --     );
-        -- END IF;
         INSERT INTO indexdepskip VALUES(
             i, dep.codigoD, dep.nombreD, dep.direccionD, nest_puntero(puntero_tip(i+1)), i-1
         );        
@@ -40,23 +31,23 @@ BEGIN
         i, NULL, NULL, NULL, NULL, i-1
     );
     
-    -- Guardo num nodo final
+    -- Guardar num nodo final
     n := mis_punteros.COUNT + 1;
+
     WHILE mis_punteros.COUNT > 2 AND iter <= maxPtrs LOOP
         j := mis_punteros.FIRST;
         WHILE j IS NOT NULL LOOP
-            SELECT dbms_random.value(0,1) num into ran FROM dual;
-            dbms_output.put_line('J ES: ' || j);
-            dbms_output.put_line('r: ' ||ran);
-            i := mis_punteros.NEXT(j);
             IF j = mis_punteros.LAST THEN
                 INSERT INTO TABLE(SELECT grupoDePunteros FROM indexdepskip WHERE numnodo = j)
                 VALUES(n);
                 EXIT;
             END IF;
+            SELECT dbms_random.value(0,1) num into ran FROM dual;
+            dbms_output.put_line('J ES: ' || j);
+            dbms_output.put_line('r: ' ||ran);
+            i := mis_punteros.NEXT(j);
             IF ran = 0 THEN
                 IF i IS NOT NULL THEN
-                    -- dbms_output.put_line('IF NUMNODO IGUAL ' || j);
                     INSERT INTO TABLE(SELECT grupoDePunteros FROM indexdepskip WHERE numnodo = j)
                     VALUES(mis_punteros(i));
                 END IF;

@@ -46,7 +46,6 @@ CREATE TABLE indexdepskip OF indexdepskip_type
 NESTED TABLE grupoDePunteros STORE AS store_punteros
 ;
 
-
 INSERT INTO indexdepskip VALUES(
     1, 11, 'Antioquia', 'calle 2', nest_puntero(puntero_tip(2)), 0);
 
@@ -57,3 +56,7 @@ INSERT INTO indexdepskip VALUES(
 );
 
 DELETE FROM departamento WHERE codigoD=66;
+
+SELECT t2.numnodo num
+FROM indexdepskip t, TABLE(t.grupoDePunteros) t2
+WHERE t.numnodo = 1;
