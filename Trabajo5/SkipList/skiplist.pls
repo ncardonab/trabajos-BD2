@@ -22,7 +22,7 @@ BEGIN
     DELETE auxdep;
     DELETE indexdepskip;
     mis_punteros(0) := 0;
-    FOR dep IN (SELECT * FROM departamento) LOOP
+    FOR dep IN (SELECT * FROM departamento ORDER BY codigoD) LOOP
         IF i = c THEN
             INSERT INTO indexdepskip VALUES(
                 i, dep.codigoD, dep.nombreD, dep.direccionD, NULL, i-1
