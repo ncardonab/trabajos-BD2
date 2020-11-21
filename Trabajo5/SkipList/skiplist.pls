@@ -54,6 +54,9 @@ BEGIN
                 j := mis_punteros.NEXT(j);
             ELSE
                 mis_punteros.DELETE(i);
+                IF mis_punteros.COUNT <= 2 THEN
+                    EXIT;
+                END IF;
             END IF;
         END LOOP;
         iter := iter+1;

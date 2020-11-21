@@ -45,6 +45,7 @@ CREATE TABLE indexdepskip OF indexdepskip_type
 (numnodo PRIMARY KEY)
 NESTED TABLE grupoDePunteros STORE AS store_punteros
 ;
+-----------------------------------
 
 INSERT INTO indexdepskip VALUES(
     1, 11, 'Antioquia', 'calle 2', nest_puntero(puntero_tip(2)), 0);
@@ -57,6 +58,12 @@ INSERT INTO indexdepskip VALUES(
 
 DELETE FROM departamento WHERE codigoD=66;
 
+-- Ver contenido tabla anidada
 SELECT t2.numnodo num
 FROM indexdepskip t, TABLE(t.grupoDePunteros) t2
 WHERE t.numnodo = 1;
+
+SELECT t.numnodo, COUNT(t2.numnodo) cantnodos
+FROM indexdepskip t, TABLE(t.grupoDePunteros) t2
+GROUP BY  t.numnodo
+ORDER BY cantnodos DESC, t.numnodo;
