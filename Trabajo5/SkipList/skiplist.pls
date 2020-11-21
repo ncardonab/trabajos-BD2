@@ -14,8 +14,7 @@ BEGIN
 
     SELECT COUNT(*) INTO c FROM departamento;
 
-    DELETE auxdep;
-    DELETE indexdepskip;
+    DELETE auxdep;    DELETE indexdepskip;
     mis_punteros(1) := 1;
     INSERT INTO indexdepskip VALUES(
         1, NULL, NULL, NULL, nest_puntero(puntero_tip(2)), NULL
