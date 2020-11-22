@@ -10,6 +10,11 @@ CREATE TABLE departamento(
     direccionD VARCHAR2(20) NOT NULL
 );
 
+CREATE TABLE ConsultaDep(
+    nodo NUMBER PRIMARY KEY,
+    cant NUMBER
+);
+
 INSERT INTO departamento VALUES(11,'dep1','carrera dep 1');
 INSERT INTO departamento VALUES(22,'dep22','calle dep 2');
 INSERT INTO departamento VALUES(33,'dep333','carrera dep 3');
@@ -67,3 +72,19 @@ SELECT t.numnodo, COUNT(t2.numnodo) cantnodos
 FROM indexdepskip t, TABLE(t.grupoDePunteros) t2
 GROUP BY  t.numnodo
 ORDER BY cantnodos DESC, t.numnodo;
+
+CREATE TABLE nodocant AS SELECT * FROM(
+    SELECT t.numnodo, COUNT(t2.numnodo) cantnodos
+    FROM indexdepskip t, TABLE(t.grupoDePunteros) t2
+    GROUP BY  t.numnodo
+    ORDER BY cantnodos DESC, t.numnodo
+);
+
+UPDATE nodocant
+SET cantnodos = 1
+WHERE cantnodos > 1;
+
+SELECT t.numnodo nnodo, COUNT(t2.numnodo) altura
+FROM indexdepskip t, TABLE(t.grupoDePunteros) t2 
+GROUP BY  (t.numnodo) ORDER BY t.numnodo;
+    

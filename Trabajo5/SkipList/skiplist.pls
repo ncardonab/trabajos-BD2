@@ -53,7 +53,7 @@ BEGIN
                 j := mis_punteros.NEXT(j);
             ELSE
                 mis_punteros.DELETE(i);
-                IF mis_punteros.COUNT <= 2 THEN
+                IF mis_punteros.COUNT <= 2 AND mis_punteros.NEXT(i) = n THEN
                     EXIT;
                 END IF;
             END IF;

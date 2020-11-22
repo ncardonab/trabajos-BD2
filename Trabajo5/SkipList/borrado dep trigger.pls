@@ -6,30 +6,18 @@ BEFORE DELETE ON departamento
 FOR EACH ROW
 DECLARE
     i NUMBER;
-    nodo NUMBER;
+    nodo indexdepskip%ROWTYPE;
     ptrback NUMBER;
 
-    nodoBack NUMBER;
+    nodoBack indexdepskip%ROWTYPE;
     ptrNodoBack NUMBER;
 
-    nodoNext NUMBER;
+    nodoNext indexdepskip%ROWTYPE;
     ptrNodoNext NUMBER;    
 BEGIN
     dbms_output.put_line(:OLD.codigoD);
-    -- Nodo a eliminar (actual)
-    FOR indexdep IN (SELECT * FROM indexdepskip WHERE codigoD = :OLD.codigoD) LOOP
-        nodo := indexdep.numnodo;
-        ptrback := indexdep.ptrback;
-    END LOOP;
-
-    -- -- Nodo anterior
-    -- FOR nodo IN (SELECT * FROM indexdepskip WHERE numnodo = ptrback) LOOP
-    --     nodoback = nodo.numnodo;
-    -- END LOOP;
-
-    -- -- Nodo siguiente 
-    -- FOR nodo IN (SELECT * FROM indexdepskip WHERE ptrback = nodo) LOOP
-    --     nodonext = nodo.numnodo;
-    -- END LOOP;
+    -- Nodo a eliminar 
+    SELECT indexdepskip_type(numnodo, codigoD, nombreD, direccionD, grupoDePunteros, ptrback) INTO nodo FROM indexdepskip WHERE codigoD = :OLD.codigoD;
+    dbms_output.put_line(nodo.numnodo);
 END;
 /
