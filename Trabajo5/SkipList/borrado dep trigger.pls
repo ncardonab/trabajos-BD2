@@ -8,6 +8,7 @@ FOR EACH ROW
 DECLARE
     c NUMBER;
     nodo indexdepskip%ROWTYPE;
+    nodoNext NUMBER;
     alt NUMBER;
     altAct NUMBER;
     nnodo NUMBER;
