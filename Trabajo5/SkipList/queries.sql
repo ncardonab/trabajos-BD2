@@ -86,3 +86,9 @@ INSERT INTO INDEXDEPSKIP VALUES(8, NULL, NULL, NULL, NULL,7);
 DELETE FROM departamento WHERE codigoD = 44;
 
 SELECT numnodo, codigoD, grupoDePunteros FROM indexdepskip;
+
+UPDATE departamento
+SET direccionD = 'NO ME IMPORTA'
+WHERE codigoD = 33;
+
+SELECT * FROM indexdepskip;

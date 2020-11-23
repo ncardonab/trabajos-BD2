@@ -8,7 +8,6 @@ DECLARE
     nodo indexdepskip%ROWTYPE;
     firstDep NUMBER;
     lastDep NUMBER;
-    -- nodoA NUMBER;
     auxNodoB NUMBER;
     nodoB indexdepskip%ROWTYPE;
     c NUMBER;
@@ -19,7 +18,6 @@ BEGIN
     -- Penúltimo nodo
     c := c - 1;
     IF :OLD.codigoD <> :NEW.codigoD THEN
-        dbms_output.put_line('NODO A CAMBIAR: ' || nodo.numnodo);
         --Primer codigoD
         SELECT numnodo INTO firstDep FROM indexdepskip WHERE numnodo = 2;
         SELECT numnodo INTO lastDep FROM indexdepskip WHERE numnodo = c;
@@ -36,9 +34,12 @@ BEGIN
         WHERE numnodo = nodo.numnodo;
         -- Actualizar nodoB
         UPDATE indexdepskip
-        SET codigoD = :NEW.codigoD, direccionD = nodo.direccionD, nombreD = nodo.nombreD
-        WHERE numnodo = nodoB.numnodo;        
-
+        SET codigoD = :NEW.codigoD, direccionD = :NEW.direccionD, nombreD = :NEW.nombreD
+        WHERE numnodo = nodoB.numnodo;
+    ELSE
+        UPDATE indexdepskip
+        SET codigoD = :NEW.codigoD, direccionD = :NEW.direccionD, nombreD = :NEW.nombreD
+        WHERE numnodo = nodo.numnodo;        
     END IF;
 END;
 /
