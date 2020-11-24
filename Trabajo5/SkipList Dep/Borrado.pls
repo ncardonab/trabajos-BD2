@@ -16,16 +16,19 @@ DECLARE
 BEGIN
     -- Nodo a eliminar 
     SELECT indexdepskip_type(numnodo, codigoD, nombreD, direccionD, grupoDePunteros, ptrback) INTO nodo FROM indexdepskip WHERE codigoD = :OLD.codigoD;
-    dbms_output.put_line('NODO A ELIMINAR: ' || nodo.numnodo);
+    -- dbms_output.put_line('NODO A ELIMINAR: ' || nodo.numnodo);
     -- Eliminar nodo
     DELETE FROM indexdepskip WHERE codigoD = nodo.codigoD;
     -- Actualizar: Restar uno a los nodos siguientes 
     UPDATE indexdepskip SET numnodo = numnodo - 1 WHERE numnodo > nodo.numnodo;
     -- Restar uno a los grupos de punteros de los nodos siguientes
-    dbms_output.put_line('ANTES DEL FOR1');
     SELECT COUNT(*) INTO c FROM indexdepskip;
     FOR nodoAct IN (SELECT * FROM indexdepskip WHERE numnodo >= nodo.numnodo AND numnodo < c ORDER BY numnodo ) LOOP
         dbms_output.put_line('NODO A RESTAR: ' || nodoACT.numnodo);
+        UPDATE indexdepskip
+        SET ptrback = ptrback - 1
+        WHERE numnodo = nodoAct.numnodo;
+
         UPDATE TABLE(SELECT grupoDePunteros
                 FROM indexdepskip t
                 WHERE t.numnodo = nodoAct.numnodo)
@@ -33,8 +36,11 @@ BEGIN
         dbms_output.put_line('NODO RESTADO: ' || nodoACT.numnodo);
     END LOOP;   
 
-    -- SE actualiza el grupo de puntero de cada nodo anterior al nodo eliminado 
-    dbms_output.put_line('ANTES DEL FOR2');
+    UPDATE indexdepskip
+    SET ptrback = ptrback - 1
+    WHERE numnodo = c;
+
+    -- SE actualiza el grupo de puntero de cada nodo anterior al nodo eliminado
     FOR nodoAct IN (SELECT * FROM indexdepskip WHERE numnodo < nodo.numnodo ORDER BY numnodo) LOOP
 
         dbms_output.put_line('NODO ACTUAL: ' || nodoACT.numnodo);

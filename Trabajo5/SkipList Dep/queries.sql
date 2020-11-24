@@ -1,9 +1,3 @@
-CREATE TABLE empleado(
-    codigoE NUMBER(10) PRIMARY KEY,
-    nombreE VARCHAR2(20) NOT NULL,
-    depE NUMBER(8) NOT NULL
-);
-
 CREATE TABLE departamento(
     codigoD NUMBER(8) PRIMARY KEY,
     nombreD VARCHAR2(20) NOT NULL,
@@ -83,6 +77,15 @@ INSERT INTO INDEXDEPSKIP VALUES(6, 55, 'dep55', 'calle dep 5', NEST_PUNTERO(PUNT
 INSERT INTO INDEXDEPSKIP VALUES(7, 66, 'dep6', 'calle dep 6', NEST_PUNTERO(PUNTERO_TIP(8), PUNTERO_TIP(8)),6);
 INSERT INTO INDEXDEPSKIP VALUES(8, NULL, NULL, NULL, NULL,7);
 
+UPDATE departamento
+SET codigoD = 50
+WHERE codigoD = 22;
+
 DELETE FROM departamento WHERE codigoD = 44;
 
 SELECT numnodo, codigoD, grupoDePunteros FROM indexdepskip;
+
+
+SELECT * FROM indexdepskip;
+
+SELECT * FROM departamento where codigoD = 33;
