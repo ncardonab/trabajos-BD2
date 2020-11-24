@@ -25,12 +25,20 @@ BEGIN
     SELECT COUNT(*) INTO c FROM indexdepskip;
     FOR nodoAct IN (SELECT * FROM indexdepskip WHERE numnodo >= nodo.numnodo AND numnodo < c ORDER BY numnodo ) LOOP
         dbms_output.put_line('NODO A RESTAR: ' || nodoACT.numnodo);
+        UPDATE indexdepskip
+        SET ptrback = ptrback - 1
+        WHERE numnodo = nodoAct.numnodo;
+
         UPDATE TABLE(SELECT grupoDePunteros
                 FROM indexdepskip t
                 WHERE t.numnodo = nodoAct.numnodo)
         SET numnodo = numnodo - 1;
         dbms_output.put_line('NODO RESTADO: ' || nodoACT.numnodo);
     END LOOP;   
+
+    UPDATE indexdepskip
+    SET ptrback = ptrback - 1
+    WHERE numnodo = c;
 
     -- SE actualiza el grupo de puntero de cada nodo anterior al nodo eliminado
     FOR nodoAct IN (SELECT * FROM indexdepskip WHERE numnodo < nodo.numnodo ORDER BY numnodo) LOOP

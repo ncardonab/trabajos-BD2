@@ -1,9 +1,3 @@
-CREATE TABLE empleado(
-    codigoE NUMBER(10) PRIMARY KEY,
-    nombreE VARCHAR2(20) NOT NULL,
-    depE NUMBER(8) NOT NULL
-);
-
 CREATE TABLE departamento(
     codigoD NUMBER(8) PRIMARY KEY,
     nombreD VARCHAR2(20) NOT NULL,
