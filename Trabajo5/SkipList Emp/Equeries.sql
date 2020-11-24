@@ -116,3 +116,12 @@ WHERE codigoE = 30;
 DELETE FROM empleado WHERE codigoE = 10;
 
 
+
+INSERT INTO empleado VALUES(1, 'Esteban', 11);
+INSERT INTO empleado VALUES(2, 'Pepe', 22 );
+INSERT INTO empleado VALUES(3, 'M, P', 33);
+INSERT INTO empleado VALUES(4, 'LA', 44);
+INSERT INTO empleado VALUES(7, 'Mate', 55);
+INSERT INTO empleado VALUES(6, 'Daniel', 66);
+INSERT INTO empleado VALUES(9, 'Nicola', 11);
+INSERT INTO empleado VALUES(10, 'Ramstein', 12);

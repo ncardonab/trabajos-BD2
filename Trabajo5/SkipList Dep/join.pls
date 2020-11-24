@@ -16,10 +16,8 @@ BEGIN
             END;
         
         end loop;
-       
-    
-  end loop;
-  
+
+    end loop;
 
 END;
 / 

@@ -1,6 +1,6 @@
 set SERVEROUTPUT on
 
-CREATE OR REPLACE PROCEDURE CrearSL(maxPtrs NUMBER) IS
+CREATE OR REPLACE PROCEDURE CrearSLEmpl(maxPtrs NUMBER) IS
     n pls_integer;
     c PLS_INTEGER;
     ran PLS_INTEGER;
@@ -72,6 +72,6 @@ END;
 /
 
 BEGIN
-CrearSL(8);
+CrearSLEmpl(8);
 END;
 /
