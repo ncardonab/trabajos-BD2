@@ -14,7 +14,7 @@ CREATE TABLE indexsegtree(
     idx NUMBER(8) PRIMARY KEY,
     leftPtr NUMBER(8),
     rightPtr NUMBER(8),
-    -- interval VARCHAR2(20) NOT NULL,
+    interval VARCHAR2(20) NOT NULL,
     l NUMBER(8) NOT NULL,
     r NUMBER(8) NOT NULL,
     maxnotionvalue NUMBER(8),
