@@ -1,7 +1,7 @@
 SET SERVEROUTPUT on
 
--- CREATE OR REPLACE PROCEDURE CrearST IS
-DECLARE
+CREATE OR REPLACE PROCEDURE CrearST IS
+-- DECLARE
     n pls_integer;
     l NUMBER(8);
     r NUMBER(8);
@@ -85,7 +85,7 @@ BEGIN
 END;
 /
 
--- begin
---     CrearST();
--- end;
--- /
+begin
+    CrearST();
+end;
+/
